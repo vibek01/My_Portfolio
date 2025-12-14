@@ -1,37 +1,35 @@
-/* Container Setup */
+/* =========================
+   WORK SECTION
+========================= */
+
 .workSection {
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  background-color: #000000;
+  background-color: #000;
   color: #eae5ec;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   position: relative;
   z-index: 20;
-  box-sizing: border-box;
-  will-change: transform;
-  /* Reset margins/paddings that might interfere */
-  margin: 0;
-  padding: 0;
 }
 
 .workContainer {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
   height: 100%;
   width: 100%;
-  align-content: stretch;
-  padding-left: 5vw; /* Keep your left padding preference */
+  display: flex;
+  flex-direction: column;
+  padding-left: 5vw;
+  padding-top: 5vh;
+  box-sizing: border-box;
 }
+
+/* =========================
+   TITLE
+========================= */
 
 .sectionTitle {
   font-size: clamp(40px, 5vw, 80px);
   font-weight: 500;
-  margin-top: 5vh; /* Adjusted top margin */
-  margin-bottom: 5vh;
+  margin-bottom: 6vh;
   font-family: 'Inter', sans-serif;
   letter-spacing: -0.02em;
 }
@@ -40,48 +38,52 @@
   color: #d8b4fe;
 }
 
-/* The Horizontal Strip */
+/* =========================
+   HORIZONTAL STRIP
+========================= */
+
 .workFlex {
-  width: 100%;
   display: flex;
-  height: 100%;
-  /* Reference logic: negative margin to offset start, padding right for end */
-  margin-left: 0; 
-  padding-right: 120px; 
+  align-items: stretch;
+  height: calc(100% - 140px);
+  width: max-content;
   position: relative;
-  align-items: center;
+  padding-right: 120px;
 }
 
-/* The Infinite Lines */
+/* Guide Lines */
 .workFlex::before,
 .workFlex::after {
   content: "";
-  width: 50000vw; /* Massive width as per reference */
+  position: absolute;
+  left: 0;
+  width: 50000vw;
   height: 1px;
   background-color: #333;
-  position: absolute;
-  left: 50%;
-  top: 15%; /* Adjusted to fit your card height */
-  transform: translateX(-50%);
+}
+
+.workFlex::before {
+  top: 0;
 }
 
 .workFlex::after {
-  top: 85%; /* Adjusted to fit your card height */
+  bottom: 0;
 }
 
-/* Individual Project Box */
+/* =========================
+   PROJECT CARD
+========================= */
+
 .workBox {
-  padding: 60px;
-  display: flex;
-  flex-direction: column;
   width: 600px;
+  padding: 50px;
   box-sizing: border-box;
   border-right: 1px solid #333;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   flex-shrink: 0;
-  gap: 40px;
-  justify-content: flex-start;
-  background-color: #000000;
-  height: 70%; /* Constrain height within the flex container */
   transition: background-color 0.3s ease;
 }
 
@@ -89,68 +91,87 @@
   background-color: #0a0a0a;
 }
 
-/* Alternating Layout (Zig Zag) */
+/* Zig-zag without breaking alignment */
 .workFlex .workBox:nth-child(even) {
   flex-direction: column-reverse;
 }
 
-/* Content Styling */
-.workTitle {
-  justify-content: space-between;
+/* =========================
+   CONTENT
+========================= */
+
+.workInfo {
   display: flex;
-  width: 100%;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #333;
-  padding-bottom: 20px;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.workTitle div {
-  text-align: right;
+.workTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 18px;
 }
 
 .workTitle h3 {
-  font-size: 50px;
-  line-height: 50px;
+  font-size: 40px;
+  line-height: 1;
   margin: 0;
-  font-weight: 600;
   color: #333;
+  min-width: 60px;
+  font-weight: 600;
 }
 
-.workInfo h4 {
-  font-size: 18px;
-  font-weight: 400;
+.workTitle div {
+  display: flex;
+  flex-direction: column;
+}
+
+.workTitle h4 {
+  font-size: 24px;
+  font-weight: 600;
   margin: 0;
   color: #fff;
-  text-transform: uppercase;
   letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1.2;
 }
 
-.workInfo p {
-  font-weight: 200;
-  color: #adacac;
-  margin: 0;
-  margin-top: 5px;
+.workTitle p {
   font-size: 14px;
+  color: #aaa;
+  margin-top: 4px;
 }
 
 .description {
-  font-size: 15px;
-  color: #aaa;
+  font-size: 16px;
   line-height: 1.6;
-  margin-bottom: 15px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  color: #aaa;
 }
 
-/* Image Component Styles */
+.techStack h4 {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.techStack p {
+  font-size: 14px;
+  color: #d8b4fe;
+}
+
+/* =========================
+   IMAGE
+========================= */
+
 .workImageWrapper {
   width: 100%;
   height: 280px;
-  position: relative;
-  overflow: hidden;
   border-radius: 12px;
+  overflow: hidden;
   background-color: #111;
   border: 1px solid #222;
 }
@@ -159,68 +180,46 @@
   display: block;
   width: 100%;
   height: 100%;
-  position: relative;
 }
 
 .workImageLink img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0.85;
   transition: transform 0.7s cubic-bezier(0.2, 1, 0.3, 1);
-  opacity: 0.8;
 }
 
 .workImageLink:hover img {
-  transform: scale(1.1);
+  transform: scale(1.08);
   opacity: 1;
 }
 
-.workLinkIcon {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-  width: 50px;
-  height: 50px;
-  background-color: rgba(0,0,0,0.8);
-  backdrop-filter: blur(4px);
-  border: 1px solid #333;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  color: #fff;
-  opacity: 0;
-  transform: scale(0.5);
-  transition: all 0.3s ease;
-  z-index: 10;
-}
+/* =========================
+   RESPONSIVE
+========================= */
 
-.workImageLink:hover .workLinkIcon {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Responsive */
-@media only screen and (max-width: 1400px) {
+@media (max-width: 1400px) {
   .workBox {
-    width: 450px;
+    width: 460px;
     padding: 40px;
   }
-  .workFlex {
-    padding-right: 75px;
+  .workImageWrapper {
+    height: 240px;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media (max-width: 768px) {
+  .workFlex {
+    height: auto;
+  }
+
   .workBox {
     width: 85vw;
     padding: 30px;
   }
-  .workFlex {
-    padding-right: 45px;
-  }
-  .sectionTitle {
-    margin-top: 20px;
+
+  .workImageWrapper {
+    height: 220px;
   }
 }
