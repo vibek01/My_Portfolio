@@ -22,7 +22,7 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
 
   useEffect(() => {
     if (isExpanded && pointsRef.current) {
-      // 1. Morph Animation (Sphere -> Text + Explosion)
+      // 1. Morph Animation
       gsap.to(animState.current, {
         progress: 1,
         duration: 2.5,
@@ -30,7 +30,7 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
         delay: 0.5 
       });
 
-      // 2. Reset Rotation to face camera
+      // 2. Reset Rotation
       gsap.to(pointsRef.current.rotation, {
         x: 0,
         y: 0,
@@ -46,31 +46,44 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
 
     const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
     const progress = animState.current.progress;
+    
+    // --- SCROLL WARP LOGIC ---
+    // 1. Get scroll position
+    const scrollY = window.scrollY;
+    
+    // 2. Move particles towards camera (Z-axis) based on scroll
+    // The camera is at z=35. We move particles closer as we scroll.
+    const targetZ = scrollY * 0.05; 
+    pointsRef.current.position.z = THREE.MathUtils.lerp(pointsRef.current.position.z, targetZ, 0.1);
+
+    // 3. Fade out opacity as they get too close (Warp effect)
+    // Start fading after 200px scroll, fully invisible by 800px
+    const newOpacity = Math.max(0, 1 - Math.max(0, scrollY - 200) / 600);
+    
+    // Access material safely to update opacity
+    const material = pointsRef.current.material as THREE.PointsMaterial;
+    material.opacity = newOpacity;
+    // -------------------------
 
     // Rotate only while it is a sphere
     if (progress < 0.1) {
       pointsRef.current.rotation.y += 0.002;
     }
     
-    // Interpolate positions
+    // Interpolate positions (Morph logic)
     for (let i = 0; i < count; i++) {
       const ix = i * 3;
       const iy = i * 3 + 1;
       const iz = i * 3 + 2;
 
-      // Linear interpolation
-      // Because the "hidden" textPositions are now scattered symmetrically in 360 degrees,
-      // this will look like the sphere is expanding/evaporating in all directions.
       positions[ix] = spherePositions[ix] + (textPositions[ix] - spherePositions[ix]) * progress;
       positions[iy] = spherePositions[iy] + (textPositions[iy] - spherePositions[iy]) * progress;
       positions[iz] = spherePositions[iz] + (textPositions[iz] - spherePositions[iz]) * progress;
       
-      // Add subtle noise/wave movement to the stars and text
+      // Add subtle noise
       if (progress > 0.8) {
-         // Gentle float for the final state
          positions[ix] += Math.sin(state.clock.elapsedTime * 0.5 + positions[iy]) * 0.005;
       } else {
-         // More active movement during transition
          positions[ix] += Math.sin(state.clock.elapsedTime + positions[iy]) * 0.02;
       }
     }
