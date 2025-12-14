@@ -3,6 +3,7 @@ import Loader from './components/ui/Loader/Loader';
 import Navbar from './components/layout/Navbar';
 import Hero from './sections/Hero';
 import About from './sections/About';
+import WorkSection from './sections/Projects/WorkSection';
 
 function App() {
   return (
@@ -11,11 +12,13 @@ function App() {
         <Loader />
         <Navbar />
         <Hero />
-        <About />
         
-        {/* Placeholder for Projects Section */}
-        <div id="projects" className="h-screen bg-black flex items-center justify-center">
-          <p className="text-gray-600">Projects Coming Next...</p>
+        {/* The Horizontal Scroll Section */}
+        <WorkSection />
+        
+        {/* Spacer for Footer later */}
+        <div className="h-[50vh] bg-black flex items-center justify-center border-t border-white/10">
+          <p className="text-gray-600">Contact Section Coming Next...</p>
         </div>
       </main>
     </LoaderProvider>
