@@ -2,8 +2,8 @@ import { LoaderProvider } from './components/ui/Loader/LoaderContext';
 import Loader from './components/ui/Loader/Loader';
 import Navbar from './components/layout/Navbar';
 import Hero from './sections/Hero';
-import About from './sections/About';
 import WorkSection from './sections/Projects/WorkSection';
+import ScrollTypography from './sections/Experience/ScrollTypography';
 
 function App() {
   return (
@@ -13,12 +13,18 @@ function App() {
         <Navbar />
         <Hero />
         
-        {/* The Horizontal Scroll Section */}
+        {/* Spacer between Hero and Projects */}
+        <div className="h-[20vh] bg-black w-full"></div>
+
+        {/* Projects Section */}
         <WorkSection />
         
-        {/* Spacer for Footer later */}
+        {/* Experience Section (Immediate follow) */}
+        <ScrollTypography />
+        
+        {/* Footer Placeholder */}
         <div className="h-[50vh] bg-black flex items-center justify-center border-t border-white/10">
-          <p className="text-gray-600">Contact Section Coming Next...</p>
+          <p className="text-gray-600">Footer Coming Next...</p>
         </div>
       </main>
     </LoaderProvider>

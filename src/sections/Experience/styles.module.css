@@ -1,0 +1,161 @@
+/* Container Setup */
+.experienceSection {
+  height: 100vh;
+  width: 100%;
+  background-color: #000000;
+  color: #fff;
+  position: relative;
+  z-index: 20;
+}
+
+/* The Pinned Wrapper */
+.pinContainer {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  /* FIXED: Align top instead of center to reduce top gap */
+  align-items: flex-start; 
+}
+
+/* --- LAYER 1: The Background Text --- */
+.textLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: max-content;
+  display: flex;
+  /* FIXED: Align top with padding to position text nicely */
+  align-items: flex-start; 
+  padding-top: 20vh; /* Push down slightly, but higher than center */
+  z-index: 0;
+  padding-left: 5vw;
+  pointer-events: none;
+}
+
+.bigText {
+  font-size: 40vh;
+  font-weight: 900;
+  margin: 0;
+  line-height: 0.8;
+  letter-spacing: -15px;
+  color: #222222; 
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+  display: flex;
+}
+
+.char {
+  display: inline-block;
+  transform-origin: bottom center;
+  will-change: transform, opacity;
+}
+
+/* --- LAYER 2: The Foreground Cards --- */
+.cardsLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  align-items: center; /* Keep cards centered vertically */
+  z-index: 10;
+  padding-left: 100vw;
+  gap: 100px;
+}
+
+/* --- Individual Card --- */
+.card {
+  width: 550px;
+  min-height: 450px;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid #333;
+  padding: 50px;
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: #d8b4fe;
+  transform: translateY(-10px) scale(1.02);
+  background: #111;
+  z-index: 20;
+}
+
+.cardHeader {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 25px;
+}
+
+.year {
+  font-size: 14px;
+  color: #d8b4fe;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  display: block;
+  text-transform: uppercase;
+}
+
+.cardTitle {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #fff;
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.company {
+  font-size: 1.2rem;
+  color: #888;
+  font-weight: 400;
+}
+
+.cardList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cardItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  font-size: 1rem;
+  color: #ccc;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.checkIcon {
+  width: 22px;
+  height: 22px;
+  background-color: rgba(216, 180, 254, 0.1);
+  border: 1px solid rgba(216, 180, 254, 0.3);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.checkIcon::after {
+  content: '✓';
+  color: #d8b4fe;
+  font-size: 12px;
+  font-weight: bold;
+}
