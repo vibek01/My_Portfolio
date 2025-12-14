@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLoader } from '../ui/Loader/LoaderContext';
 
 const navLinks = [

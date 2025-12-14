@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 export const calculateSpherePositions = (count: number, radius: number) => {
   const positions = new Float32Array(count * 3);
   for (let i = 0; i < count; i++) {
