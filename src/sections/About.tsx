@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import BentoCard from '../components/ui/BentoCard';
-import { Code2, Globe, Cpu, Terminal, Coffee, Database } from 'lucide-react';
+import { Globe, Cpu, Terminal, Database } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
