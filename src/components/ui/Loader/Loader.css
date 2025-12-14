@@ -1,0 +1,113 @@
+/* Wrapper - Fixed on top of everything */
+.loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  pointer-events: none;
+  transition: opacity 0.5s ease-out; /* Faster fade out at the very end */
+}
+
+/* The Pill Box */
+.loader-box {
+  /* Initial Dimensions */
+  width: 380px;
+  height: 100px;
+  
+  /* Appearance */
+  background-color: #000000;
+  border-radius: 100px;
+  
+  /* FIXED: Brighter Border & Stronger Glow */
+  border: 2px solid rgba(168, 85, 247, 0.8); /* Bright Purple */
+  box-shadow: 
+    0 0 30px rgba(168, 85, 247, 0.4), /* Outer Glow */
+    inset 0 0 20px rgba(168, 85, 247, 0.2); /* Inner Glow */
+
+  /* Layout */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  
+  /* Performance */
+  will-change: width, height, border-radius, transform;
+  transform: translateZ(0);
+  
+  /* The Expansion Transition */
+  transition: 
+    width 1.2s cubic-bezier(0.85, 0, 0.15, 1),
+    height 1.2s cubic-bezier(0.85, 0, 0.15, 1),
+    border-radius 0.8s ease-in,
+    opacity 0.5s ease;
+    
+  pointer-events: auto;
+}
+
+/* The Expanded State */
+.loader-box.expanded {
+  /* Expand well beyond screen to clear corners */
+  width: 120vw; 
+  height: 120vh;
+  border-radius: 0px;
+  
+  /* Keep border visible during expansion, fade it only at the very end via JS or opacity */
+  border-color: rgba(168, 85, 247, 0.5); 
+  box-shadow: none;
+}
+
+/* Text Container */
+.loader-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+}
+
+.loader-content.hidden {
+  opacity: 0;
+}
+
+/* Typography */
+.loader-label {
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.loader-percent {
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cursor-block {
+  display: inline-block;
+  width: 10px;
+  height: 18px;
+  background-color: #fff;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
