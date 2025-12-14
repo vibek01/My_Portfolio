@@ -8,33 +8,24 @@ const Hero = () => {
   return (
     <section className="relative w-full h-screen bg-black overflow-hidden flex flex-col items-center justify-center">
       
-      {/* 
-        1. TEXT OVERLAY (Foreground)
-        We place this absolutely over the canvas.
-        Pointer-events-none ensures we can still scroll/interact with canvas if needed.
-      */}
+      {/* 1. TEXT OVERLAY */}
       <div 
         className={`absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-1000 delay-500 ${
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
       >
-        {/* "HI, I AM" - Positioned above the center */}
         <span className="text-gray-400 tracking-[0.3em] text-sm font-light mb-[12vh]">
           HI, I AM
         </span>
 
-        {/* Spacer to let the 3D "VIBEK" text breathe in the middle */}
         <div className="h-[15vh]"></div>
 
-        {/* "FULL STACK DEVELOPER" - Positioned below the center */}
         <h2 className="mt-[12vh] text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-white text-xl md:text-2xl font-light tracking-[0.2em] uppercase">
           Full Stack Developer
         </h2>
       </div>
 
-      {/* 
-        2. 3D SCENE (Background)
-      */}
+      {/* 2. 3D SCENE */}
       <div 
         className={`absolute inset-0 transition-opacity duration-[2000ms] ease-in-out ${
           isLoading ? 'opacity-0' : 'opacity-100'

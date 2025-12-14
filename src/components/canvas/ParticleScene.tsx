@@ -22,7 +22,7 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
 
   useEffect(() => {
     if (isExpanded && pointsRef.current) {
-      // 1. Morph Animation
+      // 1. Morph Animation (Sphere -> Text + Explosion)
       gsap.to(animState.current, {
         progress: 1,
         duration: 2.5,
@@ -47,7 +47,7 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
     const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
     const progress = animState.current.progress;
 
-    // Only rotate while it is a sphere
+    // Rotate only while it is a sphere
     if (progress < 0.1) {
       pointsRef.current.rotation.y += 0.002;
     }
@@ -59,13 +59,19 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
       const iz = i * 3 + 2;
 
       // Linear interpolation
+      // Because the "hidden" textPositions are now scattered symmetrically in 360 degrees,
+      // this will look like the sphere is expanding/evaporating in all directions.
       positions[ix] = spherePositions[ix] + (textPositions[ix] - spherePositions[ix]) * progress;
       positions[iy] = spherePositions[iy] + (textPositions[iy] - spherePositions[iy]) * progress;
       positions[iz] = spherePositions[iz] + (textPositions[iz] - spherePositions[iz]) * progress;
       
-      // Add subtle noise/wave movement
-      if (progress < 0.8) {
-        positions[ix] += Math.sin(state.clock.elapsedTime + positions[iy]) * 0.02;
+      // Add subtle noise/wave movement to the stars and text
+      if (progress > 0.8) {
+         // Gentle float for the final state
+         positions[ix] += Math.sin(state.clock.elapsedTime * 0.5 + positions[iy]) * 0.005;
+      } else {
+         // More active movement during transition
+         positions[ix] += Math.sin(state.clock.elapsedTime + positions[iy]) * 0.02;
       }
     }
 

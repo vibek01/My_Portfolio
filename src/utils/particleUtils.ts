@@ -48,25 +48,31 @@ export const calculateTextPositions = (text: string, count: number, fontSize: nu
   
   for (let i = 0; i < count; i++) {
     if (i < textCoordinates.length) {
-      // Particle is part of the text
+      // 1. Particle is part of the text "VIBEK"
       positions[i * 3] = textCoordinates[i].x;
       positions[i * 3 + 1] = textCoordinates[i].y;
       positions[i * 3 + 2] = 0;
     } else {
-      // Particle is "excess" (background)
-      // LOGIC CHANGE: We hide 95% of excess particles to reduce clutter
-      const isBackgroundParticle = Math.random() < 0.05; // Only keep 5% visible
+      // 2. Unused Particles Logic
+      const isBackgroundParticle = Math.random() < 0.05; // Keep 5% as stars
 
       if (isBackgroundParticle) {
-        // Scatter these few particles widely for a starfield effect
+        // Scatter these nearby to form the "Starfield"
         positions[i * 3] = (Math.random() - 0.5) * 80;
         positions[i * 3 + 1] = (Math.random() - 0.5) * 80;
         positions[i * 3 + 2] = (Math.random() - 0.5) * 80; 
       } else {
-        // Hide the rest far away behind the camera
-        positions[i * 3] = 10000;
-        positions[i * 3 + 1] = 10000;
-        positions[i * 3 + 2] = 10000;
+        // 3. THE FIX: Symmetrical Explosion
+        // Instead of sending them to (10000, 10000, 10000) which looks like a top-right fly-off,
+        // we send them in random directions very far away.
+        
+        const radius = 10000; // Very far away (hidden)
+        const theta = 2 * Math.PI * Math.random(); // Random angle around Y
+        const phi = Math.acos(2 * Math.random() - 1); // Random angle from Z
+        
+        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = radius * Math.cos(phi);
       }
     }
   }
