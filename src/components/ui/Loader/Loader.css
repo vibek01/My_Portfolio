@@ -9,8 +9,8 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  pointer-events: none;
-  transition: opacity 0.5s ease-out; /* Faster fade out at the very end */
+  pointer-events: none; /* Wrapper allows clicks through */
+  transition: opacity 0.5s ease-out; 
 }
 
 /* The Pill Box */
@@ -23,11 +23,10 @@
   background-color: #000000;
   border-radius: 100px;
   
-  /* FIXED: Brighter Border & Stronger Glow */
-  border: 2px solid rgba(168, 85, 247, 0.8); /* Bright Purple */
+  border: 2px solid rgba(168, 85, 247, 0.8); 
   box-shadow: 
-    0 0 30px rgba(168, 85, 247, 0.4), /* Outer Glow */
-    inset 0 0 20px rgba(168, 85, 247, 0.2); /* Inner Glow */
+    0 0 30px rgba(168, 85, 247, 0.4), 
+    inset 0 0 20px rgba(168, 85, 247, 0.2); 
 
   /* Layout */
   display: flex;
@@ -49,19 +48,21 @@
     border-radius 0.8s ease-in,
     opacity 0.5s ease;
     
+  /* CRITICAL: Blocks clicks ONLY while it's a small loading pill */
   pointer-events: auto;
 }
 
 /* The Expanded State */
 .loader-box.expanded {
-  /* Expand well beyond screen to clear corners */
   width: 120vw; 
   height: 120vh;
   border-radius: 0px;
-  
-  /* Keep border visible during expansion, fade it only at the very end via JS or opacity */
   border-color: rgba(168, 85, 247, 0.5); 
   box-shadow: none;
+
+  /* === THE FIX === */
+  /* As soon as it expands, stop blocking clicks */
+  pointer-events: none !important; 
 }
 
 /* Text Container */

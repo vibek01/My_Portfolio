@@ -5,7 +5,7 @@ import "./Loader.css";
 
 const Loader = () => {
   const progress = useProgress();
-  const { setIsLoading } = useLoader();
+  const { isLoading, setIsLoading } = useLoader(); // Destructure isLoading here
   
   const [expanded, setExpanded] = useState(false);
   const [textVisible, setTextVisible] = useState(true);
@@ -20,25 +20,31 @@ const Loader = () => {
       setTimeout(() => {
         setExpanded(true);
         
-        // 3. Wait for expansion animation (1.2s in CSS) to mostly finish
+        // 3. Wait for expansion animation (1.2s) to finish
         setTimeout(() => {
           setWrapperVisible(false); // Fade out the black box
           
-          // 4. Unmount loader
+          // 4. Unmount loader completely
           setTimeout(() => {
             setIsLoading(false);
-          }, 500); 
+          }, 500); // Wait for opacity transition (0.5s)
         }, 1100); 
       }, 300);
     }
   }, [progress, setIsLoading]);
 
-  if (!wrapperVisible && !expanded) return null;
+  // === THE FIX ===
+  // If the global context says we are done, remove from DOM immediately.
+  if (!isLoading) return null;
 
   return (
     <div 
       className="loader-wrapper" 
-      style={{ opacity: wrapperVisible ? 1 : 0 }}
+      // Double safety: Force pointer-events none if wrapper is fading out
+      style={{ 
+        opacity: wrapperVisible ? 1 : 0,
+        pointerEvents: wrapperVisible ? "auto" : "none" 
+      }}
     >
       <div className={`loader-box ${expanded ? "expanded" : ""}`}>
         <div className={`loader-content ${!textVisible ? "hidden" : ""}`}>
