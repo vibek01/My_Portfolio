@@ -3,7 +3,7 @@ import Loader from './components/ui/Loader/Loader';
 import Navbar from './components/layout/Navbar';
 import Hero from './sections/Hero';
 import WorkSection from './sections/Projects/WorkSection';
-import ScrollTypography from './sections/Experience/ScrollTypography';
+import ExperienceSection from './sections/Experience/ExperienceSection';
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         <WorkSection />
         
         {/* Experience Section (Immediate follow) */}
-        <ScrollTypography />
+        <ExperienceSection />
         
         {/* Footer Placeholder */}
         <div className="h-[50vh] bg-black flex items-center justify-center border-t border-white/10">
