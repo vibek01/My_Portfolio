@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import WorkImage from "./WorkImage";
 import styles from "./styles.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -29,7 +28,7 @@ const projects: Project[] = [
     name: "AI Interview Coach", 
     cat: "EdTech SaaS", 
     desc: "An AI-powered platform that simulates real job interviews, providing real-time feedback on speech and body language.",
-    tools: "Next.js, OpenAI API, WebRTC",
+    tools: "Next.js, OpenAI, WebRTC",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2832&auto=format&fit=crop",
     link: "#"
   },
@@ -37,7 +36,7 @@ const projects: Project[] = [
     name: "ICFAICOLALB", 
     cat: "Dev Platform", 
     desc: "A collaborative platform for developers to share resources, track hackathons, and manage team projects efficiently.",
-    tools: "MERN Stack, Socket.io",
+    tools: "MongoDB, Express, React, Node.js",
     image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=2940&auto=format&fit=crop",
     link: "#"
   },
@@ -61,7 +60,7 @@ const projects: Project[] = [
     name: "Portfolio V1", 
     cat: "Personal", 
     desc: "My previous portfolio showcasing early works and experiments with 3D web technologies.",
-    tools: "HTML, CSS, Vanilla JS",
+    tools: "Three.js, Cannon.js, GSAP",
     image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=2855&auto=format&fit=crop",
     link: "#"
   },
@@ -72,54 +71,29 @@ const WorkSection: React.FC = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    let translateX: number = 0;
+    if (!containerRef.current || !wrapperRef.current) return;
 
-    function setTranslateX() {
-      // Select elements using the class names from CSS Modules
-      // Note: Since we use CSS modules, we need to target the DOM elements carefully.
-      // However, since we have refs, we can use them directly or fallback to querySelector if needed.
-      
-      if (!containerRef.current || !wrapperRef.current) return;
+    const getScrollAmount = () => {
+      const wrapperWidth = wrapperRef.current?.scrollWidth || 0;
+      const containerWidth = containerRef.current?.offsetWidth || 0;
+      return -(wrapperWidth - containerWidth);
+    };
 
-      const box = wrapperRef.current.children[0] as HTMLElement; // First work-box
-      if (!box) return;
-
-      const rectLeft = containerRef.current.getBoundingClientRect().left;
-      const rect = box.getBoundingClientRect();
-      const parentWidth = containerRef.current.getBoundingClientRect().width;
-      
-      // Calculate padding (fallback to 0 if NaN)
-      const computedStyle = window.getComputedStyle(box);
-      const padding = parseFloat(computedStyle.paddingLeft) || 0;
-
-      // The Exact Formula from your reference
-      translateX = (rect.width * projects.length) - (rectLeft + parentWidth) + padding + 300; // Added buffer
-    }
-
-    setTranslateX();
-
-    // Recalculate on resize
-    window.addEventListener("resize", setTranslateX);
-
-    const timeline = gsap.timeline({
+    const tween = gsap.to(wrapperRef.current, {
+      x: getScrollAmount,
+      ease: "none",
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: () => `+=${translateX}`, // Use the calculated X
-        scrub: true,
+        end: () => `+=${Math.abs(getScrollAmount())}`, 
         pin: true,
+        scrub: 1,
         invalidateOnRefresh: true,
       },
     });
 
-    timeline.to(wrapperRef.current, {
-      x: () => -translateX,
-      ease: "none",
-    });
-
     return () => {
-      window.removeEventListener("resize", setTranslateX);
-      timeline.kill();
+      tween.kill();
     };
   }, { scope: containerRef, dependencies: [projects] });
 
@@ -146,17 +120,49 @@ const WorkSection: React.FC = () => {
                   {project.desc}
                 </p>
 
-                <div className={styles.workInfo}>
-                  <h4>Tools & Features</h4>
-                  <p>{project.tools}</p>
+                {/* Tech Stack Pills */}
+                <div className={styles.techStack}>
+                  {project.tools.split(",").map((tool, i) => (
+                    <span key={i} className={styles.techPill}>
+                      {tool.trim()}
+                    </span>
+                  ))}
                 </div>
               </div>
               
-              <WorkImage 
-                image={project.image} 
-                alt={project.name}
-                link={project.link}
-              />
+              {/* Image with Hover Overlay Button */}
+              <div className={styles.workImageWrapper}>
+                <a 
+                  href={project.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={styles.workImageLink}
+                >
+                  <img 
+                    src={project.image} 
+                    alt={project.name} 
+                    loading={index > 0 ? "lazy" : "eager"}
+                  />
+                  
+                  {/* The Visit Button */}
+                  <div className={styles.visitButton} aria-hidden="true">
+                    <svg 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      width="24" 
+                      height="24" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="2.5" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                    >
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                  </div>
+                </a>
+              </div>
             </div>
           ))}
         </div>
