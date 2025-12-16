@@ -41,7 +41,7 @@ const About: React.FC = () => {
               <div className={styles.imageWrapper}>
                 {/* Replace with your actual photo */}
                 <img 
-                  src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=2055&auto=format&fit=crop" 
+                  src="images/MYPIC.jpg" 
                   alt="Vibek Prasad Bin" 
                 />
                 <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black to-transparent">

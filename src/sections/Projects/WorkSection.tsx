@@ -73,34 +73,29 @@ const WorkSection: React.FC = () => {
   useGSAP(() => {
     if (!containerRef.current || !wrapperRef.current) return;
 
-    // Use matchMedia to only apply the horizontal scroll on Desktop (min-width: 768px)
-    // On mobile, CSS will handle the vertical stacking naturally.
-    ScrollTrigger.matchMedia({
-      "(min-width: 768px)": function() {
-        const getScrollAmount = () => {
-          const wrapperWidth = wrapperRef.current?.scrollWidth || 0;
-          const containerWidth = containerRef.current?.offsetWidth || 0;
-          return -(wrapperWidth - containerWidth);
-        };
+    // Logic now runs on ALL screens (Mobile + Desktop)
+    const getScrollAmount = () => {
+      const wrapperWidth = wrapperRef.current?.scrollWidth || 0;
+      const containerWidth = containerRef.current?.offsetWidth || 0;
+      return -(wrapperWidth - containerWidth);
+    };
 
-        const tween = gsap.to(wrapperRef.current, {
-          x: getScrollAmount,
-          ease: "none",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: () => `+=${Math.abs(getScrollAmount())}`, 
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-        });
-
-        return () => {
-          tween.kill();
-        };
-      }
+    const tween = gsap.to(wrapperRef.current, {
+      x: getScrollAmount,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: () => `+=${Math.abs(getScrollAmount())}`, 
+        pin: true,
+        scrub: 1,
+        invalidateOnRefresh: true,
+      },
     });
+
+    return () => {
+      tween.kill();
+    };
     
   }, { scope: containerRef, dependencies: [projects] });
 

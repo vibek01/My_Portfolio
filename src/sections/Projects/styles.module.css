@@ -300,51 +300,58 @@
 }
 
 @media (max-width: 768px) {
-  /* === FIX: Allow section to grow vertically === */
-  .workSection {
-    height: auto; 
-    min-height: 100vh;
-    overflow: visible;
-  }
-
+  /* 1. Reset Container to allow horizontal scroll logic */
   .workContainer {
-    height: auto;
-    overflow: visible;
-    padding-bottom: 10vh; /* Add spacing at bottom */
+    padding-left: 0; /* Remove left padding to center content */
+    padding-top: 10vh;
   }
 
+  /* 2. Keep the horizontal row layout */
   .workFlex {
-    height: auto;
-    width: 100%;
-    flex-direction: column;
+    height: 75vh; /* Adjust height to fit mobile screen */
     padding-right: 0;
-    /* Ensure GSAP doesn't keep it translated off-screen */
-    transform: none !important; 
   }
 
+  /* 3. Resize Card to be Full Screen Width for Mobile */
   .workBox {
+    width: 100vw; /* Takes full width of mobile screen */
+    border-right: none; 
+    padding: 0 5vw; /* Add side padding inside the card */
+    justify-content: center;
+  }
+
+  /* 4. Adjust content layout for mobile */
+  .workInfo {
+    margin-bottom: 20px;
+  }
+
+  .workTitle h3 {
+    font-size: 32px;
+  }
+
+  .workTitle h4 {
+    font-size: 22px;
+  }
+
+  .workImageWrapper {
+    height: 220px;
     width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #333;
-    padding: 40px 5vw;
   }
 
-  /* Reset alternating layout for mobile consistency */
+  /* 5. Force standard column layout (Text Top, Image Bottom) for consistency */
   .workFlex .workBox:nth-child(even) {
-    flex-direction: column;
+    flex-direction: column; 
   }
 
+  /* Hide the horizontal lines on mobile */
   .workFlex::before,
   .workFlex::after {
     display: none;
   }
   
+  /* Ensure button is visible */
   .visitButton {
     opacity: 1;
     transform: translateY(0) scale(1);
-    width: 40px;
-    height: 40px;
-    bottom: 12px;
-    right: 12px;
   }
 }
