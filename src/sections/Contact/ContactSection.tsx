@@ -44,7 +44,7 @@ const ContactSection: React.FC = () => {
       </div>
 
       {/* 2. MAIN CONTENT GRID */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start pt-20">
         
         {/* === LEFT COLUMN: INFO === */}
         <div className="flex flex-col gap-10">
@@ -72,14 +72,14 @@ const ContactSection: React.FC = () => {
           <div className="flex flex-col gap-4">
             
             {/* Card 1: Email */}
-            <a href="mailto:johnnykyorov@gmail.com" className={`contact-reveal ${styles.glassCard} group p-5 rounded-2xl flex items-center justify-between cursor-pointer`}>
+            <a href="mailto:vibekbin305@gmail.com" className={`contact-reveal ${styles.glassCard} group p-5 rounded-2xl flex items-center justify-between cursor-pointer`}>
               <div className="flex items-center gap-5">
                 <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-purple-500/50 transition-colors">
                   <Mail size={20} className="text-gray-300 group-hover:text-purple-400 transition-colors" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm text-gray-400 font-medium">Email us</span>
-                  <span className="text-white font-semibold tracking-wide">vibekprasad@example.com</span>
+                  <span className="text-white font-semibold tracking-wide">vibekbin305@gmail.com</span>
                 </div>
               </div>
               <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
@@ -88,14 +88,14 @@ const ContactSection: React.FC = () => {
             </a>
 
             {/* Card 2: Phone */}
-            <a href="tel:+15011234567" className={`contact-reveal ${styles.glassCard} group p-5 rounded-2xl flex items-center justify-between cursor-pointer`}>
+            <a href="tel:+919366420315" className={`contact-reveal ${styles.glassCard} group p-5 rounded-2xl flex items-center justify-between cursor-pointer`}>
               <div className="flex items-center gap-5">
                 <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-purple-500/50 transition-colors">
                   <Phone size={20} className="text-gray-300 group-hover:text-purple-400 transition-colors" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm text-gray-400 font-medium">Call us</span>
-                  <span className="text-white font-semibold tracking-wide">+91 98765 43210</span>
+                  <span className="text-white font-semibold tracking-wide">+91 93664 20315</span>
                 </div>
               </div>
               <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
@@ -159,10 +159,10 @@ const ContactSection: React.FC = () => {
               ></textarea>
             </div>
 
-            {/* Submit Button */}
+            {/* Submit Button - Fixed Typo and Styling */}
             <button 
               type="submit" 
-              className="mt-2 w-full bg-gray-500` text-black font-bold text-lg p-4 rounded-xl hover:bg-gray-200 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2"
+              className="mt-4 w-full bg-white text-black font-bold text-lg p-4 rounded-xl hover:bg-purple-400 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/10"
             >
               Submit <Send size={18} />
             </button>
