@@ -25,12 +25,12 @@ const projects: Project[] = [
     link: "https://www.winscale.space/"
   },
   { 
-    name: "AI Interview Coach", 
-    cat: "EdTech SaaS", 
-    desc: "An AI-powered platform that simulates real job interviews, providing real-time feedback on speech and body language.",
-    tools: "Next.js, OpenAI, WebRTC",
-    image: "/images/INTERVIEW.png",
-    link: "https://ai-interview-coach-sable.vercel.app/"
+    name: "Gyanashree", 
+    cat: "NGO Website", 
+    desc: "A dedicated platform for a social society, facilitating donations, event management, and community outreach.",
+    tools: "React, Tailwind, Framer Motion",
+    image: "/images/GYANASHREE.png",
+    link: "https://gyanashree-social-society.vercel.app/"
   },
   { 
     name: "ICFAICOLLAB", 
@@ -39,6 +39,14 @@ const projects: Project[] = [
     tools: "MongoDB, Express, React, Node.js",
     image: "/images/ICFAICOLLAB.png",
     link: "https://icfaicollab.vercel.app/"
+  },
+  { 
+    name: "AI Interview Coach", 
+    cat: "EdTech SaaS", 
+    desc: "An AI-powered platform that simulates real job interviews, providing real-time feedback on speech and body language.",
+    tools: "Next.js, OpenAI, WebRTC",
+    image: "/images/INTERVIEW.png",
+    link: "https://ai-interview-coach-sable.vercel.app/"
   },
   { 
     name: "Yupcha AI", 
@@ -55,14 +63,6 @@ const projects: Project[] = [
     tools: "React, Firebase, Material UI",
     image: "/images/RESOURCEHUB.png",
     link: "https://student-resource-hub-two.vercel.app/"
-  },
-  { 
-    name: "Gyanashree", 
-    cat: "NGO Website", 
-    desc: "A dedicated platform for a social society, facilitating donations, event management, and community outreach.",
-    tools: "React, Tailwind, Framer Motion",
-    image: "/images/GYANASHREE.png",
-    link: "https://gyanashree-social-society.vercel.app/"
   },
 ];
 

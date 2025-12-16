@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LoaderProvider } from './components/ui/Loader/LoaderContext';
 import Loader from './components/ui/Loader/Loader';
 import Navbar from './components/layout/Navbar';
-import ScrollToTop from './components/utils/ScrollToTop'; // The utility we created
+import ScrollToTop from './components/utils/ScrollToTop'; 
 
 // Sections
 import Hero from './sections/Hero';
@@ -13,11 +13,12 @@ import Footer from './components/layout/Footer';
 
 // Pages
 import About from './pages/About/About';
+import NotFound from './pages/NotFound'; // Import the 404 page
 
 function AppContent() {
   return (
     <main className="bg-black min-h-screen text-white selection:bg-purple-500/30">
-      <ScrollToTop /> {/* Ensures scroll resets on nav */}
+      <ScrollToTop /> 
       <Loader />
       <Navbar />
       
@@ -36,6 +37,9 @@ function AppContent() {
 
         {/* Route 2: The About Page */}
         <Route path="/about" element={<About />} />
+
+        {/* Route 3: 404 Page (Must be last) */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
   );
