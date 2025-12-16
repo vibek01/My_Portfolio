@@ -11,7 +11,16 @@ interface ParticleSceneProps {
 
 const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
   const pointsRef = useRef<THREE.Points>(null);
-  const { camera } = useThree(); 
+  
+  // Get camera and screen size to handle responsiveness
+  const { camera, size } = useThree(); 
+  
+  // === RESPONSIVE LOGIC ===
+  // If screen width is less than 768px (Mobile), scale down to 0.55 (55%)
+  // Otherwise keep it at 1 (100%)
+  const isMobile = size.width < 768;
+  const meshScale = isMobile ? 0.55 : 1;
+
   const count = 12000; 
   
   // Memoize positions
@@ -28,7 +37,7 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
   const tempDir = useMemo(() => new THREE.Vector3(), []);
   
   // Click Shockwave State
-  const shockwaveRef = useRef(0); // 0 = no shockwave, 1 = max shockwave
+  const shockwaveRef = useRef(0); 
 
   const animState = useRef({ progress: 0 }); 
 
@@ -86,7 +95,6 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
     // Base Colors
     const baseColor = new THREE.Color("#d8b4fe"); // Purple
     const hoverColor = new THREE.Color("#ffffff"); // White Hot
-    // const shockColor = new THREE.Color("#5eead4"); // Cyan/Teal for shockwave
 
     // --- LOOP ---
     for (let i = 0; i < count; i++) {
@@ -106,6 +114,8 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
       let colorMix = 0; // 0 = base, 1 = hover
 
       if (progress > 0.8) {
+        // IMPORTANT: We must adjust mouse interaction for scale if we scale the mesh
+        // But for visual simplicity, we keep physics relative to world space
         const dx = baseX - tempMousePos.x;
         const dy = baseY - tempMousePos.y;
         const distSq = dx * dx + dy * dy;
@@ -121,14 +131,12 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
           targetOffsetX += Math.cos(angle) * force * strength;
           targetOffsetY += Math.sin(angle) * force * strength;
           targetOffsetZ += force * 4.0;
-          colorMix = force; // High force = white color
+          colorMix = force; 
         }
 
         // B. Click Shockwave Effect
-        // Shockwave expands outward over time. 
-        // We use shockwaveRef.current (0 to 1) to drive a ring
         if (shockwaveRef.current > 0.01) {
-           const waveRadius = (1 - shockwaveRef.current) * 50; // Expands to 50 units
+           const waveRadius = (1 - shockwaveRef.current) * 50; 
            const waveWidth = 5;
            const diff = Math.abs(dist - waveRadius);
            
@@ -140,7 +148,6 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
               targetOffsetY += Math.sin(angle) * waveForce;
               targetOffsetZ += waveForce * 0.5;
               
-              // If hit by shockwave, mix in the shock color
               colorMix = Math.max(colorMix, waveForce * 0.5); 
            }
         }
@@ -156,16 +163,9 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
       positions[iz] = baseZ + hoverOffsets.current[iz];
 
       // 4. Update Color
-      // Lerp between base purple and hot white based on proximity
-      // We manually lerp RGB values for performance
       const r = baseColor.r + (hoverColor.r - baseColor.r) * colorMix;
       const g = baseColor.g + (hoverColor.g - baseColor.g) * colorMix;
       const b = baseColor.b + (hoverColor.b - baseColor.b) * colorMix;
-
-      // If shockwave is active, tint slightly towards cyan
-      if (shockwaveRef.current > 0.1) {
-         // subtle tint
-      }
 
       colors[ix] = r;
       colors[iy] = g;
@@ -185,7 +185,8 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
   });
 
   return (
-    <points ref={pointsRef}>
+    // Apply the responsive scale here
+    <points ref={pointsRef} scale={[meshScale, meshScale, meshScale]}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -193,7 +194,6 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
           array={new Float32Array(count * 3)}
           itemSize={3}
         />
-        {/* We must initialize the color attribute here */}
         <bufferAttribute
           attach="attributes-color"
           count={count}
@@ -201,10 +201,6 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
           itemSize={3}
         />
       </bufferGeometry>
-      {/* 
-        IMPORTANT: vertexColors={true} tells Three.js to look at our 
-        bufferAttribute for color info instead of the solid color prop 
-      */}
       <pointsMaterial
         size={0.12} 
         vertexColors={true}

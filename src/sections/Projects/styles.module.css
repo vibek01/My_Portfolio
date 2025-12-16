@@ -94,6 +94,7 @@
   background-color: #050505;
 }
 
+/* Desktop: Alternate layout */
 .workFlex .workBox:nth-child(even) {
   flex-direction: column-reverse;
 }
@@ -225,7 +226,7 @@
   width: 100%;
   height: 100%;
   position: relative;
-  text-decoration: none; /* Ensure no underline on the link */
+  text-decoration: none; 
 }
 
 .workImageLink img {
@@ -234,7 +235,6 @@
   object-fit: cover;
   opacity: 0.7;
   transition: transform 0.7s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.5s ease;
-  /* Ensure image stays behind button */
   position: relative;
   z-index: 1; 
 }
@@ -256,18 +256,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 50; /* High z-index to ensure visibility */
-  
-  /* Initial State */
+  z-index: 50; 
   opacity: 0;
-  /* Reduced translate distance so it doesn't get clipped by overflow:hidden */
   transform: translateY(10px) scale(0.9); 
-  
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
 
-/* Trigger on wrapper hover to be safe */
 .workImageWrapper:hover .visitButton,
 .workBox:hover .visitButton {
   opacity: 1;
@@ -305,11 +300,26 @@
 }
 
 @media (max-width: 768px) {
+  /* === FIX: Allow section to grow vertically === */
+  .workSection {
+    height: auto; 
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .workContainer {
+    height: auto;
+    overflow: visible;
+    padding-bottom: 10vh; /* Add spacing at bottom */
+  }
+
   .workFlex {
     height: auto;
     width: 100%;
     flex-direction: column;
     padding-right: 0;
+    /* Ensure GSAP doesn't keep it translated off-screen */
+    transform: none !important; 
   }
 
   .workBox {
@@ -319,12 +329,16 @@
     padding: 40px 5vw;
   }
 
+  /* Reset alternating layout for mobile consistency */
+  .workFlex .workBox:nth-child(even) {
+    flex-direction: column;
+  }
+
   .workFlex::before,
   .workFlex::after {
     display: none;
   }
   
-  /* On mobile, make button always visible */
   .visitButton {
     opacity: 1;
     transform: translateY(0) scale(1);
