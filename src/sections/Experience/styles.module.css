@@ -8,7 +8,12 @@
   background-color: #000000;
   color: #fff;
   z-index: 10;
-  padding: 15vh 0;
+  
+  /* === PERFORMANCE FIX: Buffer Zone === */
+  /* Added margin-top to separate this section from the Work section unpinning */
+  margin-top: 20vh; 
+  padding: 10vh 0; /* Reduced padding since we have margin */
+  
   overflow: hidden; 
 }
 
@@ -46,7 +51,6 @@
   position: relative;
   color: transparent;
   -webkit-text-stroke: 2px rgba(255, 255, 255, 0.12);
-  /* PERFORMANCE FIX: Removed 'will-change' here to reduce memory usage */
 }
 
 /* The Shine Effect (The Purple Overlay) */
@@ -83,7 +87,7 @@
   mask-size: 200% 100%;
   -webkit-mask-size: 200% 100%;
   
-  /* PERFORMANCE FIX: Added 'infinite' so it doesn't stop */
+  /* === FIX: Added 'infinite' so the shine doesn't stop === */
   animation: shine-loop 6s linear;
   
   /* PERFORMANCE FIX: Tell browser only mask-position changes */
@@ -110,7 +114,6 @@
 .contentWrapper {
   position: relative;
   z-index: 10; 
-  /* PERFORMANCE FIX: Optimize entrance animation */
   will-change: transform, opacity;
   margin-top: 5vh; 
 }
@@ -124,9 +127,7 @@
   transition: background-color 0.3s ease;
   cursor: pointer;
   
-  /* PERFORMANCE FIX: REMOVED backdrop-filter (Blur). 
-     Blur is the main cause of lag. 
-     Using a high-opacity dark background looks similar but performs 10x better. */
+  /* PERFORMANCE FIX: No Blur */
   background-color: transparent; 
 }
 
@@ -145,7 +146,6 @@
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  /* PERFORMANCE FIX: Ensure smooth height animation */
   will-change: grid-template-rows;
 }
 

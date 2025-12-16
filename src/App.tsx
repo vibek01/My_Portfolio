@@ -13,7 +13,7 @@ import Footer from './components/layout/Footer';
 
 // Pages
 import About from './pages/About/About';
-import NotFound from './pages/NotFound'; // Import the 404 page
+import NotFound from './pages/NotFound'; 
 
 function AppContent() {
   return (
@@ -27,7 +27,14 @@ function AppContent() {
         <Route path="/" element={
           <>
             <Hero />
-            <div className="h-[20vh] bg-black w-full"></div>
+            
+            {/* 
+               REMOVED: <div className="h-[20vh] bg-black w-full"></div> 
+               The gap is now handled by margin-top in ExperienceSection CSS
+               to prevent layout thrashing.
+            */}
+            <div className="h-[20vh] bg-black w-full"></div> {/* Keep this one between Hero and Work */}
+
             <WorkSection />
             <ExperienceSection />
             <ContactSection />
@@ -38,7 +45,7 @@ function AppContent() {
         {/* Route 2: The About Page */}
         <Route path="/about" element={<About />} />
 
-        {/* Route 3: 404 Page (Must be last) */}
+        {/* Route 3: 404 Page */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
