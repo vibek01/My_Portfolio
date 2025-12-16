@@ -162,7 +162,7 @@ const ContactSection: React.FC = () => {
             {/* Submit Button */}
             <button 
               type="submit" 
-              className="mt-2 w-full bg-gray-500 text-black font-bold text-lg p-4 rounded-xl hover:bg-gray-200 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2"
+              className="mt-2 w-full bg-gray-500` text-black font-bold text-lg p-4 rounded-xl hover:bg-gray-200 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2"
             >
               Submit <Send size={18} />
             </button>

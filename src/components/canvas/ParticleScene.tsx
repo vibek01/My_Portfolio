@@ -1,4 +1,4 @@
-import { useRef, useMemo, useEffect, useState } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import gsap from 'gsap';
@@ -86,7 +86,7 @@ const ParticleScene = ({ text = "VIBEK", isExpanded }: ParticleSceneProps) => {
     // Base Colors
     const baseColor = new THREE.Color("#d8b4fe"); // Purple
     const hoverColor = new THREE.Color("#ffffff"); // White Hot
-    const shockColor = new THREE.Color("#5eead4"); // Cyan/Teal for shockwave
+    // const shockColor = new THREE.Color("#5eead4"); // Cyan/Teal for shockwave
 
     // --- LOOP ---
     for (let i = 0; i < count; i++) {
