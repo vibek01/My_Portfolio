@@ -1,0 +1,90 @@
+/* =========================================
+   CONTAINER
+========================================= */
+.contactSection {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #000000;
+  color: #fff;
+  z-index: 10;
+  padding: 10vh 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================
+   BACKGROUND TEXT
+========================================= */
+.bgTextContainer {
+  position: absolute;
+  /* FIXED: Moved up from 50% to 15% so it floats above the form */
+  top: -10%; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1; /* Controlled by stroke opacity below */
+}
+
+.bgText {
+  font-size: 22vw; /* Slightly larger for impact */
+  font-weight: 900;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  line-height: 1;
+  color: transparent;
+  /* FIXED: Increased opacity from 0.05 to 0.2 for better visibility */
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================
+   GLASS CARDS & INPUTS
+========================================= */
+.glassCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.glassCard:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(168, 85, 247, 0.3);
+  transform: translateY(-2px);
+}
+
+.glassInput {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.glassInput:focus {
+  outline: none;
+  border-color: #a855f7;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.1);
+}
+
+/* =========================================
+   GLOW EFFECTS
+========================================= */
+.glowBlob {
+  position: absolute;
+  width: 800px; /* Made larger */
+  height: 800px;
+  /* FIXED: Increased opacity from 0.15 to 0.5 for a strong visible glow */
+  background: radial-gradient(circle, rgba(169, 85, 247, 0.4) 0%, transparent 90%);
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+}
