@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ArrowUp, Github, Linkedin, Twitter, Mail } from "lucide-react";
-import Magnetic from "../ui/Magnetic"; // Reusing your existing Magnetic component
+import { ArrowUp, Github, Linkedin, Mail } from "lucide-react";
+import Magnetic from "../ui/Magnetic"; 
 import styles from "./Footer.module.css";
 
 const Footer: React.FC = () => {
@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
         hour: "2-digit",
         minute: "2-digit",
         hour12: true,
-        timeZone: "Asia/Kolkata", // Set to your timezone
+        timeZone: "Asia/Kolkata", 
       });
       setTime(timeString);
     };
@@ -43,32 +43,37 @@ const Footer: React.FC = () => {
               <span className="text-purple-400">together.</span>
             </h2>
             <a 
-              href="mailto:vibekprasad@example.com" 
+              href="mailto:vibekbin305@gmail.com" 
               className="text-gray-400 hover:text-white transition-colors text-lg mt-4 border-b border-gray-700 w-fit pb-1 hover:border-white"
             >
-              vibekprasad@example.com
+              vibekbin305@gmail.com
             </a>
           </div>
 
           {/* Right: Social Links (Magnetic) */}
           <div className="flex gap-4">
             <Magnetic>
-              <a href="https://github.com" target="_blank" rel="noreferrer" className={styles.socialBtn}>
+              <a 
+                href="https://github.com/vibek01/" 
+                target="_blank" 
+                rel="noreferrer" 
+                className={styles.socialBtn}
+              >
                 <Github size={20} />
               </a>
             </Magnetic>
             <Magnetic>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className={styles.socialBtn}>
+              <a 
+                href="https://www.linkedin.com/in/vibek-prasad-bin-840ba72b0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" 
+                target="_blank" 
+                rel="noreferrer" 
+                className={styles.socialBtn}
+              >
                 <Linkedin size={20} />
               </a>
             </Magnetic>
             <Magnetic>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" className={styles.socialBtn}>
-                <Twitter size={20} />
-              </a>
-            </Magnetic>
-            <Magnetic>
-              <a href="mailto:vibekprasad@example.com" className={styles.socialBtn}>
+              <a href="mailto:vibekbin305@gmail.com" className={styles.socialBtn}>
                 <Mail size={20} />
               </a>
             </Magnetic>

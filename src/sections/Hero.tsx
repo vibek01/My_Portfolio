@@ -56,11 +56,14 @@ const Hero = () => {
 
         {/* 
            === RESUME BUTTON === 
-           Added pointer-events-auto so it's clickable 
+           1. href="/resume.pdf" looks for the file at the root of your site (public folder).
+           2. target="_blank" ensures that if the download fails, it opens in a new tab.
         */}
         <a 
-          href="/resume.pdf" // Ensure you have a 'resume.pdf' in your public folder
+          href="/resume.pdf" 
           download="Vibek_Prasad_Bin_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
           className="mt-8 pointer-events-auto group flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 hover:border-purple-500/50 transition-all duration-300 cursor-pointer"
         >
           <span className="text-sm font-medium text-gray-300 group-hover:text-white tracking-widest uppercase">
