@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { ArrowUpRight } from "lucide-react"; 
+import { ArrowUpRight, Github, Code2 } from "lucide-react"; 
 import styles from "./styles.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,11 +13,13 @@ const experiences = [
     year: "2025",
     role: "Backend Developer",
     company: "NIC Tripura",
-    desc: "Architecting scalable backend systems for government applications.",
+    github: "https://github.com/vibek01/NIC_BACKEND",
+    desc: "Developed a Spring Boot–based backend system for a child marriage prevention platform, coordinating multi-department response teams (SDM, DM, Police).",
     items: [
-      "Developed cross-platform mobile apps using React Native.",
-      "Optimized database queries reducing load times by 40%.",
-      "Implemented secure authentication protocols (OAuth2)."
+      "Designed RESTful APIs for React web and React Native mobile applications.",
+      "Implemented team formation workflows with accept/reject logic for officials.",
+      "Architected supervised report merging for consolidated case reporting.",
+      "Managed secure authentication and core government business workflows."
     ]
   },
   {
@@ -25,11 +27,13 @@ const experiences = [
     year: "2024",
     role: "Collab Developer",
     company: "ICFAICOLLAB",
-    desc: "Leading a team to build real-time collaboration tools for developers.",
+    github: "https://github.com/vibek01/ICFAICOLLAB",
+    desc: "Led the development of a university-wide collaborative platform for students to showcase projects and form teams.",
     items: [
-      "Integrated Socket.io for live chat and document editing.",
-      "Designed a modular component library for consistent UI.",
-      "Managed deployment pipelines using Docker and AWS."
+      "Built personal profile sections for peer-to-peer networking.",
+      "Developed a 'Team Recruitment' system with real-time reactions.",
+      "Integrated project showcase features to increase campus-wide visibility.",
+      "Managed the end-to-end development lifecycle and team coordination."
     ]
   },
   {
@@ -37,11 +41,11 @@ const experiences = [
     year: "2023",
     role: "Junior Developer",
     company: "Diligently Innovative",
-    desc: "Assisted in frontend development and UI implementation.",
+    desc: "Assisted in frontend development and UI implementation for client-facing applications.",
     items: [
-      "Built pixel-perfect interfaces using React and Tailwind.",
-      "Collaborated with UX designers to improve accessibility.",
-      "Debugged and fixed critical production issues."
+      "Built pixel-perfect interfaces using React and Tailwind CSS.",
+      "Collaborated with UX designers to improve accessibility standards.",
+      "Debugged and fixed critical production issues in legacy codebases."
     ]
   }
 ];
@@ -62,11 +66,8 @@ const ExperienceSection: React.FC = () => {
 
     if (!container || !textLayer || !list) return;
 
-    // Calculate movement distance for parallax
     const textScrollAmount = -(textLayer.scrollWidth - window.innerWidth) * 0.8;
 
-    // --- ANIMATION 1: Background Text Parallax ---
-    // We only move the text position. The shine is now handled by CSS loop.
     gsap.to(textLayer, {
       x: textScrollAmount,
       ease: "none",
@@ -78,7 +79,6 @@ const ExperienceSection: React.FC = () => {
       }
     });
 
-    // --- ANIMATION 2: List Entrance (Delayed) ---
     gsap.fromTo(list, 
       {
         y: 150,      
@@ -102,7 +102,6 @@ const ExperienceSection: React.FC = () => {
   return (
     <section ref={containerRef} className={styles.experienceSection} id="experience">
       
-      {/* --- LAYER 1: Background Text --- */}
       <div ref={textLayerRef} className={styles.textLayer}>
         <h1 className={styles.bigText}>
           {PHRASE.split("").map((char, index) => (
@@ -117,10 +116,8 @@ const ExperienceSection: React.FC = () => {
         </h1>
       </div>
 
-      {/* --- LAYER 2: Foreground Content (Accordion List) --- */}
       <div ref={listRef} className={`${styles.contentWrapper} max-w-6xl mx-auto px-6`}>
         
-        {/* Section Header */}
         <div className="mb-16 border-b border-white/20 pb-4 flex justify-between items-end">
           <h3 className="text-sm text-gray-400 tracking-[0.3em] uppercase">
             Career History
@@ -130,7 +127,6 @@ const ExperienceSection: React.FC = () => {
           </span>
         </div>
 
-        {/* The List */}
         <div className="flex flex-col">
           {experiences.map((exp) => (
             <div 
@@ -141,8 +137,6 @@ const ExperienceSection: React.FC = () => {
             >
               {/* --- ROW HEADER --- */}
               <div className="py-8 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0">
-                
-                {/* Left: Year & Role */}
                 <div className="flex items-baseline gap-6 md:gap-12">
                   <span className={`text-lg font-mono transition-colors duration-300 ${
                     hoveredId === exp.id ? "text-purple-400" : "text-gray-500"
@@ -156,7 +150,6 @@ const ExperienceSection: React.FC = () => {
                   </h4>
                 </div>
 
-                {/* Right: Company & Arrow */}
                 <div className="flex items-center gap-4 md:gap-8">
                   <span className="text-sm tracking-widest uppercase text-gray-500">
                     {exp.company}
@@ -171,18 +164,33 @@ const ExperienceSection: React.FC = () => {
               {/* --- ROW DETAILS --- */}
               <div className={`${styles.detailsWrapper} ${hoveredId === exp.id ? styles.open : ""}`}>
                 <div className={styles.detailsInner}>
-                  <div className="pb-8 pl-0 md:pl-[140px] grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="pb-12 pl-0 md:pl-[140px] grid grid-cols-1 md:grid-cols-2 gap-12">
                     
-                    {/* Description */}
-                    <p className="text-lg text-gray-300 leading-relaxed max-w-md">
-                      {exp.desc}
-                    </p>
+                    {/* Left Side: Description & GitHub */}
+                    <div className="flex flex-col gap-6">
+                      <p className="text-lg text-gray-300 leading-relaxed">
+                        {exp.desc}
+                      </p>
+                      
+                      {exp.github && (
+                        <a 
+                          href={exp.github} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-3 w-fit px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:bg-white/10 hover:text-white hover:border-purple-500/50 transition-all duration-300"
+                        >
+                          <Github size={16} />
+                          <span>View Source Code</span>
+                          <Code2 size={14} className="text-purple-400" />
+                        </a>
+                      )}
+                    </div>
 
-                    {/* Bullet Points */}
-                    <ul className="space-y-2">
+                    {/* Right Side: Bullet Points */}
+                    <ul className="space-y-4">
                       {exp.items.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2 text-gray-400 text-sm font-light">
-                          <span className="mt-1.5 w-1 h-1 rounded-full bg-purple-500 shrink-0"></span>
+                        <li key={i} className="flex items-start gap-3 text-gray-400 text-[15px] leading-snug font-light">
+                          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0 shadow-[0_0_8px_rgba(168,85,247,0.6)]"></span>
                           {item}
                         </li>
                       ))}

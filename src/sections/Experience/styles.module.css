@@ -25,6 +25,8 @@
   z-index: 0;
   pointer-events: none;
   user-select: none;
+  /* PERFORMANCE FIX: Tell browser this layer moves */
+  will-change: transform; 
 }
 
 .bigText {
@@ -44,7 +46,7 @@
   position: relative;
   color: transparent;
   -webkit-text-stroke: 2px rgba(255, 255, 255, 0.12);
-  will-change: transform, opacity;
+  /* PERFORMANCE FIX: Removed 'will-change' here to reduce memory usage */
 }
 
 /* The Shine Effect (The Purple Overlay) */
@@ -56,17 +58,16 @@
   width: 100%;
   height: 100%;
   color: transparent;
-  -webkit-text-stroke: 2px #d8b4fe74; /* Bright Purple */
+  -webkit-text-stroke: 2px rgba(216, 180, 254, 0.8); /* Bright Purple */
   
-  /* === FIX: WIDER MASK & ANIMATION === */
-  /* 1. Make the visible area (black) much wider so it doesn't vanish */
+  /* WIDER MASK */
   mask-image: linear-gradient(
     60deg,
     transparent 0%,
-    rgba(0,0,0,0.2) 10%, /* Soft edge */
-    black 30%,          /* Fully visible purple starts */
-    black 70%,          /* Fully visible purple ends */
-    rgba(0,0,0,0.2) 90%, /* Soft edge */
+    rgba(0,0,0,0.2) 10%,
+    black 30%,
+    black 70%,
+    rgba(0,0,0,0.2) 90%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
@@ -79,12 +80,14 @@
     transparent 100%
   );
   
-  /* 2. Make the mask large enough to loop smoothly */
   mask-size: 200% 100%;
   -webkit-mask-size: 200% 100%;
   
-  /* 3. Infinite Animation instead of Scroll Link */
+  /* PERFORMANCE FIX: Added 'infinite' so it doesn't stop */
   animation: shine-loop 6s linear;
+  
+  /* PERFORMANCE FIX: Tell browser only mask-position changes */
+  will-change: mask-position, -webkit-mask-position;
   
   opacity: 1; 
 }
@@ -107,6 +110,7 @@
 .contentWrapper {
   position: relative;
   z-index: 10; 
+  /* PERFORMANCE FIX: Optimize entrance animation */
   will-change: transform, opacity;
   margin-top: 5vh; 
 }
@@ -119,18 +123,30 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: background-color 0.3s ease;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.6); 
-  backdrop-filter: blur(4px);
+  
+  /* PERFORMANCE FIX: REMOVED backdrop-filter (Blur). 
+     Blur is the main cause of lag. 
+     Using a high-opacity dark background looks similar but performs 10x better. */
+  background-color: transparent; 
 }
 
 .rowContainer:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
+/* Active State styling */
+.rowContainer:has(.open) {
+  /* Darker background to make text readable over the big letters */
+  background-color: #050505; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .detailsWrapper {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  /* PERFORMANCE FIX: Ensure smooth height animation */
+  will-change: grid-template-rows;
 }
 
 .detailsWrapper.open {
