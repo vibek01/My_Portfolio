@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { EffectComposer, Bloom } from '@react-three/postprocessing'; 
 import { Github, Linkedin, Mail, Download } from 'lucide-react';
@@ -6,9 +7,35 @@ import ParticleScene from '../components/canvas/ParticleScene';
 
 const Hero = () => {
   const { isLoading } = useLoader();
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
+
+  // === PERFORMANCE FIX: Pause 3D Render when out of view ===
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Sets state to false when Hero section leaves the viewport
+        setIsHeroVisible(entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0, // Trigger as soon as it exits
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <section className="relative w-full h-screen">
+    <section ref={sectionRef} className="relative w-full h-screen">
       
       {/* 
         1. BACKGROUND CANVAS (Fixed Position)
@@ -18,7 +45,15 @@ const Hero = () => {
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
       >
-        <Canvas camera={{ position: [0, 0, 35], fov: 45 }}>
+        <Canvas 
+          camera={{ position: [0, 0, 35], fov: 45 }}
+          // === THE FIX ===
+          // If Hero is visible, render 'always'. If not, stop rendering ('never').
+          // This frees up GPU for the Work/Experience sections.
+          frameloop={isHeroVisible ? "always" : "never"}
+          // Optimization: Cap pixel ratio to 2 to prevent lag on 4k/Retina screens
+          dpr={[1, 2]}
+        >
           <color attach="background" args={['#000000']} />
           <ambientLight intensity={0.5} />
           
@@ -56,8 +91,6 @@ const Hero = () => {
 
         {/* 
            === RESUME BUTTON === 
-           1. href="/resume.pdf" looks for the file at the root of your site (public folder).
-           2. target="_blank" ensures that if the download fails, it opens in a new tab.
         */}
         <a 
           href="/resume.pdf" 
