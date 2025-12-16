@@ -10,16 +10,15 @@ const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [isHeroVisible, setIsHeroVisible] = useState(true);
 
-  // === PERFORMANCE FIX: Pause 3D Render when out of view ===
+  // Performance Optimization: Pause 3D Render when out of view
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Sets state to false when Hero section leaves the viewport
         setIsHeroVisible(entry.isIntersecting);
       },
       {
         root: null,
-        threshold: 0, // Trigger as soon as it exits
+        threshold: 0,
       }
     );
 
@@ -47,11 +46,7 @@ const Hero = () => {
       >
         <Canvas 
           camera={{ position: [0, 0, 35], fov: 45 }}
-          // === THE FIX ===
-          // If Hero is visible, render 'always'. If not, stop rendering ('never').
-          // This frees up GPU for the Work/Experience sections.
           frameloop={isHeroVisible ? "always" : "never"}
-          // Optimization: Cap pixel ratio to 2 to prevent lag on 4k/Retina screens
           dpr={[1, 2]}
         >
           <color attach="background" args={['#000000']} />
@@ -85,7 +80,7 @@ const Hero = () => {
         {/* Spacer to push content below the 3D text */}
         <div className="h-[15vh]"></div>
 
-        <h2 className="mt-[12vh] text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-white text-xl md:text-2xl font-light tracking-[0.2em] uppercase">
+        <h2 className="mt-[12vh] text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-white text-xl md:text-2xl font-light tracking-[0.2em] uppercase text-center px-4">
           Full Stack Developer
         </h2>
 
@@ -108,8 +103,10 @@ const Hero = () => {
 
       {/* 
         3. SOCIAL LINKS (Fixed Bottom Left)
+        FIX: Changed 'bottom-12 left-12' to 'bottom-6 left-6' for mobile
+        This pushes the icons closer to the corner, preventing overlap with the center text.
       */}
-      <div className={`fixed bottom-12 left-12 z-20 flex flex-col gap-6 transition-all duration-1000 delay-[1500ms] ${
+      <div className={`fixed bottom-6 left-6 md:bottom-12 md:left-12 z-20 flex flex-col gap-6 transition-all duration-1000 delay-[1500ms] ${
         isLoading ? 'opacity-0 translate-y-10' : 'opacity-100 translate-y-0'
       }`}>
         <a 
