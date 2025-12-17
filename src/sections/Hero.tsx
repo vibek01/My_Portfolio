@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { EffectComposer, Bloom } from '@react-three/postprocessing'; 
-import { Github, Linkedin, Mail, Download } from 'lucide-react';
+import { Github, Linkedin, Mail, Eye } from 'lucide-react';
 import { useLoader } from '../components/ui/Loader/LoaderContext';
 import ParticleScene from '../components/canvas/ParticleScene';
 
@@ -85,26 +85,23 @@ const Hero = () => {
         </h2>
 
         {/* 
-           === RESUME BUTTON === 
+           === VIEW RESUME BUTTON === 
         */}
         <a 
           href="/resume.pdf" 
-          download="Vibek_Prasad_Bin_Resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="mt-8 pointer-events-auto group flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 hover:border-purple-500/50 transition-all duration-300 cursor-pointer"
         >
           <span className="text-sm font-medium text-gray-300 group-hover:text-white tracking-widest uppercase">
-            Download Resume
+            View Resume
           </span>
-          <Download size={16} className="text-gray-400 group-hover:text-purple-400 transition-colors" />
+          <Eye size={16} className="text-gray-400 group-hover:text-purple-400 transition-colors" />
         </a>
       </div>
 
       {/* 
         3. SOCIAL LINKS (Fixed Bottom Left)
-        FIX: Changed 'bottom-12 left-12' to 'bottom-6 left-6' for mobile
-        This pushes the icons closer to the corner, preventing overlap with the center text.
       */}
       <div className={`fixed bottom-6 left-6 md:bottom-12 md:left-12 z-20 flex flex-col gap-6 transition-all duration-1000 delay-[1500ms] ${
         isLoading ? 'opacity-0 translate-y-10' : 'opacity-100 translate-y-0'

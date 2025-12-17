@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { Code2, Database, Cloud, Globe, Terminal, Cpu } from "lucide-react";
+import { Code2, Database, Cloud, Globe, Terminal, Cpu, Download } from "lucide-react";
 import styles from "./styles.module.css";
 import Footer from "../../components/layout/Footer";
 
@@ -36,8 +36,10 @@ const About: React.FC = () => {
           {/* HEADER SECTION */}
           <div className="flex flex-col md:flex-row gap-16 items-start mb-32">
             
-            {/* Left: Image */}
-            <div className="about-reveal w-full md:w-1/3">
+            {/* Left: Image & Resume Button */}
+            <div className="about-reveal w-full md:w-1/3 flex flex-col items-center md:items-start">
+              
+              {/* Image Wrapper */}
               <div className={styles.imageWrapper}>
                 {/* Replace with your actual photo */}
                 <img 
@@ -51,6 +53,19 @@ const About: React.FC = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Download Resume Button */}
+              <a 
+                href="/resume.pdf" 
+                download="Vibek_Prasad_Bin_Resume.pdf"
+                className="mt-6 w-full max-w-[400px] group flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-purple-500/50 transition-all duration-300 cursor-pointer shadow-lg shadow-black/50"
+              >
+                <span className="text-sm font-bold text-gray-300 group-hover:text-white uppercase tracking-widest transition-colors">
+                  Download Resume
+                </span>
+                <Download size={18} className="text-gray-400 group-hover:text-purple-400 transition-colors" />
+              </a>
+
             </div>
 
             {/* Right: Biography */}
