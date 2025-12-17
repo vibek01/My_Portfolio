@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { ArrowUpRight, Github, Code2 } from "lucide-react"; 
+import { ArrowUpRight, Github, Code2, FileText } from "lucide-react"; 
 import styles from "./styles.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -10,10 +10,11 @@ gsap.registerPlugin(ScrollTrigger);
 const experiences = [
   {
     id: 1,
-    year: "2025",
+    year: "Jul - Sep 2025",
     role: "Backend Developer",
     company: "NIC Tripura",
     github: "https://github.com/vibek01/NIC_BACKEND",
+    certLink: "/nic-certificate.pdf", // Path to file in public folder
     desc: "Developed a Spring Boot–based backend system for a child marriage prevention platform, coordinating multi-department response teams (SDM, DM, Police).",
     items: [
       "Designed RESTful APIs for React web and React Native mobile applications.",
@@ -24,6 +25,21 @@ const experiences = [
   },
   {
     id: 2,
+    year: "Jun - Jul 2025",
+    role: "Full Stack Intern",
+    company: "Yupcha Softwares",
+    github: "https://github.com/vibek01/yupcha-chatbot-website",
+    certLink: "/yupcha-certificate.pdf", // Path to file in public folder
+    desc: "Built a dynamic Tweet Generator website utilizing a modern tech stack for high performance and scalability.",
+    items: [
+      "Developed the frontend using Solid.js for a highly reactive user interface.",
+      "Built a high-performance backend using FastAPI (Python).",
+      "Integrated Supabase for real-time database management and authentication.",
+      "Deployed and managed the application infrastructure using Cloudflare."
+    ]
+  },
+  {
+    id: 3,
     year: "2024",
     role: "Collab Developer",
     company: "ICFAICOLLAB",
@@ -37,7 +53,7 @@ const experiences = [
     ]
   },
   {
-    id: 3,
+    id: 4,
     year: "2023",
     role: "Junior Developer",
     company: "Diligently Innovative",
@@ -138,7 +154,7 @@ const ExperienceSection: React.FC = () => {
               {/* --- ROW HEADER --- */}
               <div className="py-8 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0">
                 <div className="flex items-baseline gap-6 md:gap-12">
-                  <span className={`text-lg font-mono transition-colors duration-300 ${
+                  <span className={`text-lg font-mono transition-colors duration-300 min-w-[140px] ${
                     hoveredId === exp.id ? "text-purple-400" : "text-gray-500"
                   }`}>
                     {exp.year}
@@ -151,7 +167,7 @@ const ExperienceSection: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-4 md:gap-8">
-                  <span className="text-sm tracking-widest uppercase text-gray-500">
+                  <span className="text-sm tracking-widest uppercase text-gray-500 hidden md:block">
                     {exp.company}
                   </span>
                   <ArrowUpRight 
@@ -164,26 +180,46 @@ const ExperienceSection: React.FC = () => {
               {/* --- ROW DETAILS --- */}
               <div className={`${styles.detailsWrapper} ${hoveredId === exp.id ? styles.open : ""}`}>
                 <div className={styles.detailsInner}>
-                  <div className="pb-12 pl-0 md:pl-[140px] grid grid-cols-1 md:grid-cols-2 gap-12">
+                  <div className="pb-12 pl-0 md:pl-[188px] grid grid-cols-1 md:grid-cols-2 gap-12">
                     
-                    {/* Left Side: Description & GitHub */}
+                    {/* Left Side: Description & Buttons */}
                     <div className="flex flex-col gap-6">
                       <p className="text-lg text-gray-300 leading-relaxed">
                         {exp.desc}
                       </p>
                       
-                      {exp.github && (
-                        <a 
-                          href={exp.github} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-3 w-fit px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:bg-white/10 hover:text-white hover:border-purple-500/50 transition-all duration-300"
-                        >
-                          <Github size={16} />
-                          <span>View Source Code</span>
-                          <Code2 size={14} className="text-purple-400" />
-                        </a>
-                      )}
+                      {/* Buttons Container */}
+                      <div className="flex flex-wrap gap-4">
+                        
+                        {/* Source Code Button */}
+                        {exp.github && (
+                          <a 
+                            href={exp.github} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 w-fit px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:bg-white/10 hover:text-white hover:border-purple-500/50 transition-all duration-300"
+                          >
+                            <Github size={16} />
+                            <span>Source Code</span>
+                            <Code2 size={14} className="text-purple-400" />
+                          </a>
+                        )}
+
+                        {/* Certificate Button */}
+                        {exp.certLink && (
+                          <a 
+                            href={exp.certLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 w-fit px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-sm text-purple-200 hover:bg-purple-500/20 hover:text-white hover:border-purple-500/50 transition-all duration-300"
+                          >
+                            <FileText size={16} />
+                            <span>View Certificate</span>
+                            <ArrowUpRight size={14} className="text-purple-400" />
+                          </a>
+                        )}
+
+                      </div>
                     </div>
 
                     {/* Right Side: Bullet Points */}
