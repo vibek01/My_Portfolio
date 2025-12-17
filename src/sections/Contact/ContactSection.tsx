@@ -2,14 +2,17 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Mail, Phone, MapPin, ArrowUpRight, Send, Terminal } from "lucide-react";
+import { useForm, ValidationError } from "@formspree/react"; // Import Formspree hook
+import { Mail, Phone, MapPin, ArrowUpRight, Send, Terminal, CheckCircle } from "lucide-react";
 import styles from "./styles.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ContactSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
+  
+  // Initialize Formspree hook with your Form ID
+  const [state, handleSubmit] = useForm("xdkqqvbr");
 
   useGSAP(() => {
     const container = containerRef.current;
@@ -122,52 +125,78 @@ const ContactSection: React.FC = () => {
           </div>
         </div>
 
-        {/* === RIGHT COLUMN: FORM === */}
+        {/* === RIGHT COLUMN: FORM OR SUCCESS MESSAGE === */}
         <div className="contact-reveal w-full">
-          <form ref={formRef} className="flex flex-col gap-6">
-            
-            {/* Name Input */}
-            <div className="flex flex-col gap-2">
-              <label htmlFor="name" className="text-sm font-medium text-gray-400 ml-1">Name</label>
-              <input 
-                type="text" 
-                id="name" 
-                placeholder="John Doe" 
-                className={`${styles.glassInput} w-full p-4 rounded-xl placeholder:text-gray-600`}
-              />
+          
+          {state.succeeded ? (
+            // === SUCCESS MESSAGE STATE ===
+            <div className={`${styles.glassCard} w-full p-8 rounded-2xl flex flex-col items-center justify-center text-center gap-4 min-h-[400px] animate-fade-in`}>
+              <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mb-2">
+                <CheckCircle size={40} className="text-green-400" />
+              </div>
+              <h3 className="text-3xl font-bold text-white">Message Sent!</h3>
+              <p className="text-gray-400 max-w-xs">
+                Thanks for reaching out, Vibek! I'll get back to you as soon as possible.
+              </p>
             </div>
+          ) : (
+            // === FORM STATE ===
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              
+              {/* Name Input */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="name" className="text-sm font-medium text-gray-400 ml-1">Name</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  placeholder="John Doe" 
+                  className={`${styles.glassInput} w-full p-4 rounded-xl placeholder:text-gray-600`}
+                  required
+                />
+                <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-400 text-sm ml-1" />
+              </div>
 
-            {/* Email Input */}
-            <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="text-sm font-medium text-gray-400 ml-1">Email</label>
-              <input 
-                type="email" 
-                id="email" 
-                placeholder="john@example.com" 
-                className={`${styles.glassInput} w-full p-4 rounded-xl placeholder:text-gray-600`}
-              />
-            </div>
+              {/* Email Input */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="email" className="text-sm font-medium text-gray-400 ml-1">Email</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  placeholder="john@example.com" 
+                  className={`${styles.glassInput} w-full p-4 rounded-xl placeholder:text-gray-600`}
+                  required
+                />
+                <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-400 text-sm ml-1" />
+              </div>
 
-            {/* Message Input */}
-            <div className="flex flex-col gap-2">
-              <label htmlFor="message" className="text-sm font-medium text-gray-400 ml-1">Message</label>
-              <textarea 
-                id="message" 
-                rows={5}
-                placeholder="Tell me about your project..." 
-                className={`${styles.glassInput} w-full p-4 rounded-xl placeholder:text-gray-600 resize-none`}
-              ></textarea>
-            </div>
+              {/* Message Input */}
+              <div className="flex flex-col gap-2">
+                <label htmlFor="message" className="text-sm font-medium text-gray-400 ml-1">Message</label>
+                <textarea 
+                  id="message" 
+                  name="message" 
+                  rows={5}
+                  placeholder="Tell me about your project..." 
+                  className={`${styles.glassInput} w-full p-4 rounded-xl placeholder:text-gray-600 resize-none`}
+                  required
+                ></textarea>
+                <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-400 text-sm ml-1" />
+              </div>
 
-            {/* Submit Button - Fixed Typo and Styling */}
-            <button 
-              type="submit" 
-              className="mt-4 w-full bg-white text-black font-bold text-lg p-4 rounded-xl hover:bg-purple-400 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/10"
-            >
-              Submit <Send size={18} />
-            </button>
+              {/* Submit Button */}
+              <button 
+                type="submit" 
+                disabled={state.submitting}
+                className="mt-4 w-full bg-white text-black font-bold text-lg p-4 rounded-xl hover:bg-purple-400 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/10 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {state.submitting ? "Sending..." : "Submit"} 
+                {!state.submitting && <Send size={18} />}
+              </button>
 
-          </form>
+            </form>
+          )}
         </div>
 
       </div>
