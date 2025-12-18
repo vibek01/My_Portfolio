@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Analytics } from "@vercel/analytics/react"; // 1. Import Analytics
 import { LoaderProvider } from './components/ui/Loader/LoaderContext';
 import Loader from './components/ui/Loader/Loader';
 import Navbar from './components/layout/Navbar';
@@ -29,7 +30,6 @@ function AppContent() {
             <Hero />
             
             {/* 
-               REMOVED: <div className="h-[20vh] bg-black w-full"></div> 
                The gap is now handled by margin-top in ExperienceSection CSS
                to prevent layout thrashing.
             */}
@@ -57,6 +57,8 @@ function App() {
     <Router>
       <LoaderProvider>
         <AppContent />
+        {/* 2. Add the Analytics component here so it runs on every page */}
+        <Analytics />
       </LoaderProvider>
     </Router>
   );
