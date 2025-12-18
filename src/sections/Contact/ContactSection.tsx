@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useForm, ValidationError } from "@formspree/react";
 import confetti from "canvas-confetti";
-import { Send, Terminal, CheckCircle, Sparkles, ArrowRight, User } from "lucide-react";
+import { Send, Terminal, CheckCircle, Sparkles, User } from "lucide-react";
 import styles from "./styles.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
