@@ -17,49 +17,75 @@ const Navbar = () => {
   const { isLoading } = useLoader();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('Home');
   
   const menuRef = useRef<HTMLDivElement>(null);
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const isHome = location.pathname === '/';
 
-  // === FIX: Unified Smooth Scroll Handler ===
-  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
-    // 1. Always close the mobile menu first
-    setIsMenuOpen(false);
+  // === DYNAMIC SCROLL SPY ===
+  useEffect(() => {
+    if (location.pathname === '/about') {
+      setActiveTab('About');
+      return;
+    }
 
-    // 2. Check if we are currently on the Home Page
     if (isHome) {
-      
-      // Case A: Clicking "Home" -> Scroll to Top
+      const handleScroll = () => {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        
+        const projectsSection = document.getElementById('projects');
+        const contactSection = document.getElementById('contact');
+
+        let currentSection = 'Home';
+        const triggerPoint = scrollY + (windowHeight / 3);
+
+        if (contactSection && triggerPoint >= contactSection.offsetTop) {
+          currentSection = 'Contact';
+        } else if (projectsSection && triggerPoint >= projectsSection.offsetTop) {
+          currentSection = 'Projects';
+        }
+
+        if (scrollY < 100) {
+          currentSection = 'Home';
+        }
+
+        setActiveTab(currentSection);
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      handleScroll();
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [location.pathname, isHome]);
+
+  // === NAVIGATION HANDLER ===
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, path: string, name: string) => {
+    setIsMenuOpen(false);
+    setActiveTab(name);
+
+    if (isHome) {
       if (path === '/') {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.history.pushState(null, '', '/');
       }
-      
-      // Case B: Clicking Hash Links (#projects, #contact) -> Scroll to Section
       else if (path.startsWith('/#')) {
         e.preventDefault();
-        const id = path.replace('/#', ''); // Extract "projects" from "/#projects"
+        const id = path.replace('/#', '');
         const element = document.getElementById(id);
-        
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
+          window.history.pushState(null, '', `/#${id}`);
         }
       }
     }
-    // 3. If we are on "About" page, let React Router/Browser handle the navigation naturally.
   };
 
-  // Toggle Mobile Menu
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // Close menu when route changes (backup safety)
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [location]);
-
-  // GSAP Animation for Mobile Menu
   useGSAP(() => {
     if (isMenuOpen) {
       const tl = gsap.timeline();
@@ -84,45 +110,58 @@ const Navbar = () => {
       >
         <div className="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
           
-          {/* Logo - Smooth Scroll to Top */}
+          {/* Logo */}
           <Magnetic>
             <Link 
               to="/" 
-              onClick={(e) => handleNavigation(e, '/')}
+              onClick={(e) => handleNavigation(e, '/', 'Home')}
               className="relative z-50 text-white font-bold text-xl tracking-tighter cursor-pointer p-2 block mix-blend-difference"
             >
               VPB<span className="text-purple-400">.</span>
             </Link>
           </Magnetic>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 shadow-lg shadow-purple-500/5">
-            {navLinks.map((link) => (
-              <Magnetic key={link.name}>
-                {/* 
-                  We use <Link> for internal pages (Home, About).
-                  We use <a> for Hash links (Projects, Contact) to ensure ID targeting works.
-                  Both use handleNavigation to intercept clicks on Home page.
-                */}
-                {link.name === 'About' || link.name === 'Home' ? (
-                  <Link
-                    to={link.path}
-                    onClick={(e) => handleNavigation(e, link.path)}
-                    className="text-sm font-medium text-gray-300 hover:text-white transition-colors tracking-wide px-6 py-3 block"
-                  >
-                    {link.name}
-                  </Link>
-                ) : (
-                  <a
-                    href={isHome ? link.path.replace('/', '') : link.path}
-                    onClick={(e) => handleNavigation(e, link.path)}
-                    className="text-sm font-medium text-gray-300 hover:text-white transition-colors tracking-wide px-6 py-3 block"
-                  >
-                    {link.name}
-                  </a>
-                )}
-              </Magnetic>
-            ))}
+          {/* 
+             === DESKTOP MENU CONTAINER CONTROLS ===
+             1. BLUR INTENSITY: 'backdrop-blur-2xl'. 
+                - Options: blur-sm, blur-md, blur-lg, blur-xl, blur-2xl, blur-3xl.
+             2. BACKGROUND DARKNESS: 'bg-white/5'. 
+                - Increase opacity (e.g., bg-white/10) for a lighter look.
+                - Use 'bg-black/20' for a darker, tinted glass look.
+             3. BORDER: 'border-white/10'.
+          */}
+          <div className="hidden md:flex items-center gap-1 px-2 py-2 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 shadow-lg shadow-purple-500/5">
+            {navLinks.map((link) => {
+              const isActive = activeTab === link.name;
+              
+              return (
+                <Magnetic key={link.name}>
+                  {link.name === 'About' || link.name === 'Home' ? (
+                    <Link
+                      to={link.path}
+                      onClick={(e) => handleNavigation(e, link.path, link.name)}
+                      className={`relative text-sm font-medium transition-colors tracking-wide px-5 py-3 block ${
+                        isActive ? 'text-white' : 'text-gray-400 hover:text-gray-200'
+                      }`}
+                    >
+                      {link.name}
+                      {isActive && <ActiveGlow />}
+                    </Link>
+                  ) : (
+                    <a
+                      href={isHome ? link.path.replace('/', '') : link.path}
+                      onClick={(e) => handleNavigation(e, link.path, link.name)}
+                      className={`relative text-sm font-medium transition-colors tracking-wide px-5 py-3 block ${
+                        isActive ? 'text-white' : 'text-gray-400 hover:text-gray-200'
+                      }`}
+                    >
+                      {link.name}
+                      {isActive && <ActiveGlow />}
+                    </a>
+                  )}
+                </Magnetic>
+              );
+            })}
           </div>
 
           {/* Mobile Menu Button */}
@@ -149,8 +188,10 @@ const Navbar = () => {
                 <Link
                   to={link.path}
                   ref={(el) => { linkRefs.current[index] = el }}
-                  onClick={(e) => handleNavigation(e, link.path)}
-                  className="text-5xl font-bold text-white hover:text-purple-400 transition-colors tracking-tighter block opacity-0"
+                  onClick={(e) => handleNavigation(e, link.path, link.name)}
+                  className={`text-5xl font-bold transition-colors tracking-tighter block opacity-0 ${
+                    activeTab === link.name ? 'text-purple-400' : 'text-white hover:text-purple-400'
+                  }`}
                 >
                   {link.name}
                 </Link>
@@ -158,8 +199,10 @@ const Navbar = () => {
                 <a
                   href={isHome ? link.path.replace('/', '') : link.path}
                   ref={(el) => { linkRefs.current[index] = el }}
-                  onClick={(e) => handleNavigation(e, link.path)}
-                  className="text-5xl font-bold text-white hover:text-purple-400 transition-colors tracking-tighter block opacity-0"
+                  onClick={(e) => handleNavigation(e, link.path, link.name)}
+                  className={`text-5xl font-bold transition-colors tracking-tighter block opacity-0 ${
+                    activeTab === link.name ? 'text-purple-400' : 'text-white hover:text-purple-400'
+                  }`}
                 >
                   {link.name}
                 </a>
@@ -169,6 +212,36 @@ const Navbar = () => {
         </div>
       </div>
     </>
+  );
+};
+
+// === GLOW EFFECT CONTROLS ===
+const ActiveGlow = () => {
+  return (
+    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full flex justify-center pointer-events-none">
+      
+      {/* 
+         1. AMBIENT HAZE (The soft glow)
+         - LENGTH: 'w-[80%]' (Increase to 90% or 100% for wider glow)
+         - BLUR: 'blur-2xl' (Change to blur-xl or blur-3xl)
+         - INTENSITY: 'bg-purple-500/20' (Change /20 to /40 for stronger color)
+      */}
+      <div className="absolute bottom-0 w-[80%] h-8 bg-purple-500/20 blur-2xl rounded-full" />
+
+      {/* 
+         2. THE SHARP LINE (The tapered shape)
+         - LENGTH: 'w-[80%]'
+         - COLOR: 'via-purple-400' (Change to via-purple-300 for brighter line)
+      */}
+      <div className="absolute bottom-[2px] w-[80%] h-[2px] bg-gradient-to-r from-transparent via-purple-400 to-transparent" />
+      
+      {/* 
+         3. THE CORE (The hotspot)
+         - LENGTH: 'w-[40%]'
+         - INTENSITY: 'opacity-80' (Change to 100 for max brightness)
+      */}
+      <div className="absolute bottom-[2px] w-[40%] h-[3px] bg-purple-300 blur-[3px] opacity-80" />
+    </div>
   );
 };
 
