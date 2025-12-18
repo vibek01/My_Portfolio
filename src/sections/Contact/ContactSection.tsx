@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useForm, ValidationError } from "@formspree/react";
 import confetti from "canvas-confetti";
-import { Send, Terminal, CheckCircle, Sparkles, User } from "lucide-react";
+import { Send, Terminal, CheckCircle, Sparkles, User, MessageSquareText } from "lucide-react";
 import styles from "./styles.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -27,9 +27,45 @@ const ContactSection: React.FC = () => {
     emoji: "✨" 
   });
 
+  // === USER TRACKING STATE ===
+  const [userInfo, setUserInfo] = useState({
+    ip: "Loading...",
+    location: "Loading...",
+    device: "Loading..."
+  });
+
+  // Fetch User Info (IP, Location, Device) on Mount
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        // 1. Get Device Info from Browser
+        const userAgent = navigator.userAgent;
+        
+        // 2. Get IP & Location from free API
+        const response = await fetch("https://ipapi.co/json/");
+        const data = await response.json();
+        
+        setUserInfo({
+          ip: data.ip || "Unknown IP",
+          location: `${data.city}, ${data.region}, ${data.country_name}` || "Unknown Location",
+          device: userAgent || "Unknown Device"
+        });
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+        setUserInfo({
+          ip: "Error fetching",
+          location: "Error fetching",
+          device: navigator.userAgent
+        });
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   // Update text based on slider value
   useEffect(() => {
-    if (rating <= 2) setFeedback({ text: "Needs work 😐", color: "text-gray-400", emoji: "😐" });
+    if (rating <= 2) setFeedback({ text: "Needs improvement 😐", color: "text-gray-400", emoji: "😐" });
     else if (rating <= 4) setFeedback({ text: "Decent start 🔨", color: "text-blue-300", emoji: "🔨" });
     else if (rating <= 6) setFeedback({ text: "It's looking clean ✨", color: "text-purple-300", emoji: "✨" });
     else if (rating <= 8) setFeedback({ text: "Super impressive! 🚀", color: "text-pink-300", emoji: "🚀" });
@@ -103,14 +139,13 @@ const ContactSection: React.FC = () => {
             </div>
 
             <h2 className="text-5xl md:text-6xl font-bold text-white tracking-tight">
-              What's the <br />
+              Rate the <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-                Vibe Check?
+                Experience
               </span>
             </h2>
             <p className="text-gray-400 text-lg max-w-md leading-relaxed">
-              Before you reach out, how does this portfolio make you feel? 
-              Slide to rate the experience.
+              Your feedback is valuable. Slide to rate the design and usability of this portfolio.
             </p>
           </div>
 
@@ -122,8 +157,8 @@ const ContactSection: React.FC = () => {
                   <Sparkles size={24} className="text-green-400" />
                 </div>
                 <div>
-                  <h3 className="text-white font-bold text-lg">Thanks for the vibe!</h3>
-                  <p className="text-gray-400 text-sm">Your feedback helps me improve.</p>
+                  <h3 className="text-white font-bold text-lg">Thank you!</h3>
+                  <p className="text-gray-400 text-sm">Your feedback helps me improve the experience.</p>
                 </div>
               </div>
             ) : (
@@ -132,11 +167,16 @@ const ContactSection: React.FC = () => {
                 <input type="hidden" name="subject" value="New Portfolio Rating Submission" />
                 <input type="hidden" name="rating_value" value={`${rating}/10`} />
                 <input type="hidden" name="rating_feedback" value={feedback.text} />
+                
+                {/* === HIDDEN TRACKING FIELDS === */}
+                <input type="hidden" name="user_ip" value={userInfo.ip} />
+                <input type="hidden" name="user_location" value={userInfo.location} />
+                <input type="hidden" name="user_device" value={userInfo.device} />
 
                 {/* Header & Score */}
                 <div className="flex justify-between items-end relative z-10">
                   <div className="flex flex-col gap-1">
-                    <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Current Mood</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Impression</span>
                     <h3 className={`text-xl font-bold transition-colors duration-300 ${feedback.color} flex items-center gap-2`}>
                       {feedback.text}
                     </h3>
@@ -161,8 +201,8 @@ const ContactSection: React.FC = () => {
                     style={getBackgroundSize()}
                   />
                   <div className="flex justify-between mt-2 px-1">
-                    <span className="text-[10px] uppercase font-bold text-gray-600">Nope</span>
-                    <span className="text-[10px] uppercase font-bold text-gray-600">Dope</span>
+                    <span className="text-[10px] uppercase font-bold text-gray-600">Poor</span>
+                    <span className="text-[10px] uppercase font-bold text-gray-600">Excellent</span>
                   </div>
                 </div>
 
@@ -182,7 +222,7 @@ const ContactSection: React.FC = () => {
                     />
                   </div>
 
-                  {/* Submit Button (Updated Style) */}
+                  {/* Submit Button */}
                   <button 
                     type="submit" 
                     disabled={ratingState.submitting}
@@ -192,7 +232,7 @@ const ContactSection: React.FC = () => {
                       <span className="text-sm font-medium">Sending...</span>
                     ) : (
                       <>
-                        <span className="text-sm font-medium">Submit</span>
+                        <span className="text-sm font-medium">Submit Rating</span>
                         <Send size={16} className="group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
@@ -219,6 +259,19 @@ const ContactSection: React.FC = () => {
           ) : (
             <form onSubmit={handleContactSubmit} className="flex flex-col gap-6 pt-4 lg:pt-0">
               
+              {/* One-Liner Header */}
+              <div className="flex items-center gap-3 mb-2">
+                <MessageSquareText className="text-purple-400" size={20} />
+                <p className="text-gray-300 font-medium text-lg">
+                  Have a project idea or a doubt? Let's discuss.
+                </p>
+              </div>
+
+              {/* === HIDDEN TRACKING FIELDS FOR RIGHT FORM TOO === */}
+              <input type="hidden" name="user_ip" value={userInfo.ip} />
+              <input type="hidden" name="user_location" value={userInfo.location} />
+              <input type="hidden" name="user_device" value={userInfo.device} />
+
               <div className="flex flex-col gap-2">
                 <label htmlFor="name" className="text-sm font-medium text-gray-400 ml-1">Name</label>
                 <input 
@@ -258,7 +311,7 @@ const ContactSection: React.FC = () => {
                 <ValidationError prefix="Message" field="message" errors={contactState.errors} className="text-red-400 text-sm ml-1" />
               </div>
 
-              {/* Submit Button (Updated Style) */}
+              {/* Submit Button */}
               <button 
                 type="submit" 
                 disabled={contactState.submitting}
