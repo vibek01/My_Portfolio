@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ArrowUp, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowUp, Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 import Magnetic from "../ui/Magnetic"; 
 import styles from "./Footer.module.css";
 
@@ -31,49 +31,93 @@ const Footer: React.FC = () => {
 
   return (
     <footer className={styles.footer}>
-      <div className="max-w-7xl mx-auto px-6 w-full flex flex-col justify-between h-full">
+      <div className="max-w-7xl mx-auto px-6 w-full flex flex-col justify-between h-full relative z-10">
         
-        {/* TOP SECTION: CTA & SOCIALS */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 md:gap-0">
+        {/* TOP SECTION: CTA & DETAILS */}
+        <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-0 pt-10">
           
-          {/* Left: Big CTA */}
-          <div className="flex flex-col gap-4">
-            <h2 className="text-6xl md:text-8xl font-bold tracking-tighter text-white">
+          {/* Left: Big CTA & Contact Info */}
+          <div className="flex flex-col gap-8">
+            <h2 className="text-6xl md:text-8xl font-bold tracking-tighter text-white leading-[0.9]">
               Let's work <br />
               <span className="text-purple-400">together.</span>
             </h2>
-            <a 
-              href="mailto:vibekbin305@gmail.com" 
-              className="text-gray-400 hover:text-white transition-colors text-lg mt-4 border-b border-gray-700 w-fit pb-1 hover:border-white"
-            >
-              vibekbin305@gmail.com
-            </a>
+            
+            {/* Contact Details Grid */}
+            <div className="flex flex-col md:flex-row gap-6 md:gap-12 mt-4">
+              
+              {/* Email */}
+              <a 
+                href="mailto:vibekbin305@gmail.com" 
+                className="group flex items-center gap-3 text-gray-400 hover:text-white transition-colors"
+              >
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+                  <Mail size={18} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">Email</span>
+                  <span className="text-base">vibekbin305@gmail.com</span>
+                </div>
+              </a>
+
+              {/* Phone */}
+              <a 
+                href="tel:+919366420315" 
+                className="group flex items-center gap-3 text-gray-400 hover:text-white transition-colors"
+              >
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+                  <Phone size={18} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">Phone</span>
+                  <span className="text-base">+91 93664 20315</span>
+                </div>
+              </a>
+
+              {/* Location */}
+              <div className="group flex items-center gap-3 text-gray-400 hover:text-white transition-colors cursor-default">
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+                  <MapPin size={18} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">Location</span>
+                  <span className="text-base">Tripura, India</span>
+                </div>
+              </div>
+
+            </div>
           </div>
 
           {/* Right: Social Links (Magnetic) */}
-          <div className="flex gap-4">
+          <div className="flex gap-4 self-start md:self-end mb-2">
             <Magnetic>
               <a 
                 href="https://github.com/vibek01/" 
                 target="_blank" 
                 rel="noreferrer" 
                 className={styles.socialBtn}
+                aria-label="GitHub"
               >
                 <Github size={20} />
               </a>
             </Magnetic>
             <Magnetic>
               <a 
-                href="https://www.linkedin.com/in/vibek-prasad-bin-840ba72b0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" 
+                href="https://www.linkedin.com/in/vibek-prasad-bin-840ba72b0" 
                 target="_blank" 
                 rel="noreferrer" 
                 className={styles.socialBtn}
+                aria-label="LinkedIn"
               >
                 <Linkedin size={20} />
               </a>
             </Magnetic>
             <Magnetic>
-              <a href="mailto:vibekbin305@gmail.com" className={styles.socialBtn}>
+              <a 
+                href="mailto:vibekbin305@gmail.com" 
+                className={styles.socialBtn}
+                aria-label="Email"
+              >
                 <Mail size={20} />
               </a>
             </Magnetic>
@@ -81,7 +125,7 @@ const Footer: React.FC = () => {
         </div>
 
         {/* BOTTOM SECTION: INFO & COPYRIGHT */}
-        <div className="flex flex-col-reverse md:flex-row justify-between items-center gap-6 md:gap-0 border-t border-white/10 pt-8 mt-12 md:mt-0">
+        <div className="flex flex-col-reverse md:flex-row justify-between items-center gap-6 md:gap-0 border-t border-white/10 pt-8 mt-16 md:mt-20 pb-8">
           
           {/* Copyright */}
           <div className="flex flex-col md:flex-row gap-2 md:gap-8 items-center md:items-start text-center md:text-left">

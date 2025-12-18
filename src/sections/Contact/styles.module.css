@@ -49,6 +49,7 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  width: 550px;
 }
 
 .glassCard:hover {
@@ -147,11 +148,11 @@
 ========================================= */
 .glowBlob {
   position: absolute;
-  width: 800px;
-  height: 800px;
+  width: 1000px;
+  height: 1000px;
   /* UPDATED: Increased opacity from 0.3 to 0.45 to ensure the background glow is visible */
   background: radial-gradient(circle, rgba(169, 85, 247, 0.45) 0%, transparent 70%);
-  top: 50%;
+  top: 30%;
   left: 10%; 
   transform: translateY(-50%);
   z-index: 0;
@@ -177,5 +178,8 @@
     height: 1000px;
     top: 25%;
     left: -15%;
+  }
+  .glassCard{
+    width: auto;
   }
 }
