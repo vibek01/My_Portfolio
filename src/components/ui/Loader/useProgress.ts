@@ -5,7 +5,7 @@ import { useLoader } from "./LoaderContext";
 // ⚡ SPEED CONTROL ⚡
 // Change this number to set how long the loader takes (in ms)
 // 2000 = 2 seconds, 3000 = 3 seconds, etc.
-const LOADING_DURATION_MS = 2000; 
+const LOADING_DURATION_MS = 500; 
 // =========================================================
 
 export const useProgress = () => {
