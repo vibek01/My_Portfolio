@@ -167,8 +167,7 @@ const ContactSection: React.FC = () => {
                 </div>
 
                 {/* Reveal Section: Name Input & Submit Button */}
-                {/* We use max-h-40 (approx 160px) to accommodate both input and button */}
-                <div className={`flex flex-col gap-3 transition-all duration-500 ease-in-out overflow-hidden ${hasInteracted ? 'max-h-48 opacity-100 pt-2' : 'max-h-0 opacity-0'}`}>
+                <div className={`flex flex-col gap-4 transition-all duration-500 ease-in-out overflow-hidden ${hasInteracted ? 'max-h-48 opacity-100 pt-2' : 'max-h-0 opacity-0'}`}>
                   
                   {/* Optional Name Field */}
                   <div className="relative">
@@ -183,18 +182,18 @@ const ContactSection: React.FC = () => {
                     />
                   </div>
 
-                  {/* Submit Button */}
+                  {/* Submit Button (Updated Style) */}
                   <button 
                     type="submit" 
                     disabled={ratingState.submitting}
-                    className="w-full bg-white/5 hover:bg-purple-500 hover:text-white border border-white/10 text-white p-3 rounded-xl flex items-center justify-center gap-3 transition-all group"
+                    className={styles.submitBtn}
                   >
                     {ratingState.submitting ? (
                       <span className="text-sm font-medium">Sending...</span>
                     ) : (
                       <>
-                        <span className="text-sm font-medium">Send Rating</span>
-                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        <span className="text-sm font-medium">Submit</span>
+                        <Send size={16} className="group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
                   </button>
@@ -259,10 +258,11 @@ const ContactSection: React.FC = () => {
                 <ValidationError prefix="Message" field="message" errors={contactState.errors} className="text-red-400 text-sm ml-1" />
               </div>
 
+              {/* Submit Button (Updated Style) */}
               <button 
                 type="submit" 
                 disabled={contactState.submitting}
-                className="mt-4 w-full bg-white text-black font-bold text-lg p-4 rounded-xl hover:bg-purple-400 hover:text-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`${styles.submitBtn} mt-4`}
               >
                 {contactState.submitting ? "Sending..." : "Submit"} 
                 {!contactState.submitting && <Send size={18} />}

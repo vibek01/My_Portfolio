@@ -6,6 +6,21 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { Menu, X } from 'lucide-react';
 
+// === 🎛️ CONTROLS: TWEAK THE GLOW & BLUR HERE ===
+const GLOW_CONFIG = {
+  // 1. The Glass Effect (Background Blur)
+  navbarBlur: 'blur(24px)', // Increase px for frostier glass
+  navbarOpacity: 0.1,      // 0.05 = 5% opacity (very transparent)
+
+  // 2. The "Lamp" Glow (Purple Light)
+  hazeBlur: 'blur(25px)',   // How spread out the soft purple light is
+  hazeOpacity: 0.3,         // Brightness of the soft light (0 to 1)
+  
+  // 3. The Core (Bright Center Line)
+  coreBlur: 'blur(4px)',    // Slight blur to make it look like light, not a solid line
+  coreOpacity: 1,           // Max brightness of the center hotspot
+};
+
 const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
@@ -122,15 +137,18 @@ const Navbar = () => {
           </Magnetic>
 
           {/* 
-             === DESKTOP MENU CONTAINER CONTROLS ===
-             1. BLUR INTENSITY: 'backdrop-blur-2xl'. 
-                - Options: blur-sm, blur-md, blur-lg, blur-xl, blur-2xl, blur-3xl.
-             2. BACKGROUND DARKNESS: 'bg-white/5'. 
-                - Increase opacity (e.g., bg-white/10) for a lighter look.
-                - Use 'bg-black/20' for a darker, tinted glass look.
-             3. BORDER: 'border-white/10'.
+             === DESKTOP MENU CONTAINER ===
+             We use inline styles for backdrop-filter to ensure it works 
+             even if Tailwind config is missing it.
           */}
-          <div className="hidden md:flex items-center gap-1 px-2 py-2 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 shadow-lg shadow-purple-500/5">
+          <div 
+            className="hidden md:flex items-center gap-1 px-2 py-2 rounded-full border border-white/10 shadow-lg shadow-purple-500/5"
+            style={{ 
+              backgroundColor: `rgba(255, 255, 255, ${GLOW_CONFIG.navbarOpacity})`,
+              backdropFilter: GLOW_CONFIG.navbarBlur,
+              WebkitBackdropFilter: GLOW_CONFIG.navbarBlur // Safari support
+            }}
+          >
             {navLinks.map((link) => {
               const isActive = activeTab === link.name;
               
@@ -215,32 +233,31 @@ const Navbar = () => {
   );
 };
 
-// === GLOW EFFECT CONTROLS ===
+// === GLOW COMPONENT ===
 const ActiveGlow = () => {
   return (
     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full flex justify-center pointer-events-none">
       
-      {/* 
-         1. AMBIENT HAZE (The soft glow)
-         - LENGTH: 'w-[80%]' (Increase to 90% or 100% for wider glow)
-         - BLUR: 'blur-2xl' (Change to blur-xl or blur-3xl)
-         - INTENSITY: 'bg-purple-500/20' (Change /20 to /40 for stronger color)
-      */}
-      <div className="absolute bottom-0 w-[80%] h-8 bg-purple-500/20 blur-2xl rounded-full" />
+      {/* 1. AMBIENT HAZE (Soft Glow) */}
+      <div 
+        className="absolute bottom-0 w-[90%] h-8 bg-purple-500 rounded-full" 
+        style={{ 
+          filter: GLOW_CONFIG.hazeBlur, 
+          opacity: GLOW_CONFIG.hazeOpacity 
+        }} 
+      />
 
-      {/* 
-         2. THE SHARP LINE (The tapered shape)
-         - LENGTH: 'w-[80%]'
-         - COLOR: 'via-purple-400' (Change to via-purple-300 for brighter line)
-      */}
+      {/* 2. THE SHARP LINE (Tapered Shape) */}
       <div className="absolute bottom-[2px] w-[80%] h-[2px] bg-gradient-to-r from-transparent via-purple-400 to-transparent" />
       
-      {/* 
-         3. THE CORE (The hotspot)
-         - LENGTH: 'w-[40%]'
-         - INTENSITY: 'opacity-80' (Change to 100 for max brightness)
-      */}
-      <div className="absolute bottom-[2px] w-[40%] h-[3px] bg-purple-300 blur-[3px] opacity-80" />
+      {/* 3. THE CORE (Hotspot) */}
+      <div 
+        className="absolute bottom-[2px] w-[40%] h-[3px] bg-purple-300"
+        style={{ 
+          filter: GLOW_CONFIG.coreBlur, 
+          opacity: GLOW_CONFIG.coreOpacity 
+        }}
+      />
     </div>
   );
 };
