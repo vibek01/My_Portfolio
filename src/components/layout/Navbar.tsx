@@ -123,7 +123,7 @@ const Navbar = () => {
           isLoading ? 'translate-y-[-100%] opacity-0' : 'translate-y-0 opacity-100'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+        <div className="w-full px-[5vw] py-6 flex justify-between items-center">
           
           {/* Logo */}
           <Magnetic>

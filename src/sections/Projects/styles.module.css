@@ -17,8 +17,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center; /* Center the title and strip vertically on large screens */
   padding-left: 5vw;
-  padding-top: 5vh;
   box-sizing: border-box;
   overflow: hidden; 
 }
@@ -30,7 +30,7 @@
 .sectionTitle {
   font-size: clamp(40px, 5vw, 80px);
   font-weight: 500;
-  margin-bottom: 6vh;
+  margin-bottom: 4vh; /* Slightly reduced margin since it's centered now */
   font-family: 'Inter', sans-serif;
   letter-spacing: -0.02em;
 }
@@ -46,7 +46,7 @@
 .workFlex {
   display: flex;
   align-items: stretch;
-  height: calc(100% - 140px);
+  height: auto; /* Let it wrap the content tightly rather than stretching to fill the screen */
   width: max-content;
   position: relative;
   padding-right: 5vw;
@@ -294,6 +294,13 @@
 /* =========================
    RESPONSIVE
 ========================= */
+
+/* Very Large Monitors (e.g. 27-inch displays) */
+@media (min-width: 1800px) {
+  .workBox {
+    padding: 24px; /* Reduced padding to make content fill the 600px card better */
+  }
+}
 
 @media (max-width: 1400px) {
   .workBox {

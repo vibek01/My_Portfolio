@@ -14,7 +14,7 @@ const experiences = [
     role: "Backend Developer",
     company: "NIC Tripura",
     github: "https://github.com/vibek01/NIC_BACKEND",
-    certLink: "/nic-certificate.pdf", // Path to file in public folder
+    certLink: "/nic-certificate.pdf#view=Fit", // Path to file in public folder
     desc: "Developed a Spring Boot–based backend system for a child marriage prevention platform, coordinating multi-department response teams (SDM, DM, Police).",
     items: [
       "Designed RESTful APIs for React web and React Native mobile applications.",
@@ -29,7 +29,7 @@ const experiences = [
     role: "Full Stack Intern",
     company: "Yupcha Softwares",
     github: "https://github.com/vibek01/yupcha-chatbot-website",
-    certLink: "/yupcha-certificate.pdf", // Path to file in public folder
+    certLink: "/yupcha-certificate.pdf#view=Fit", // Path to file in public folder
     desc: "Built a dynamic Tweet Generator website utilizing a modern tech stack for high performance and scalability.",
     items: [
       "Developed the frontend using Solid.js for a highly reactive user interface.",
@@ -66,6 +66,39 @@ const experiences = [
   }
 ];
 
+const certificates = [
+  {
+    id: 101,
+    year: "2024",
+    role: "C++ STL",
+    company: "Certification",
+    github: "", 
+    certLink: "/vibekpb-C++ STL - Standard template library.pdf#view=Fit",
+    desc: "Mastered the Standard Template Library in C++, covering vectors, maps, sets, algorithms and complex data structures.",
+    items: [
+      "Deep understanding of Sequence and Associative Containers.",
+      "Proficient in Iterators and Container Adapters.",
+      "Implemented standard algorithms like sorting and searching efficiently.",
+      "Optimized data structures for complex problem-solving scenarios."
+    ]
+  },
+  {
+    id: 102,
+    year: "2024",
+    role: "OOPS in C++",
+    company: "Certification",
+    github: "",
+    certLink: "/vibekpb-OOPS concepts in C++.pdf#view=Fit",
+    desc: "Comprehensive certification on Object Oriented Programming concepts in C++.",
+    items: [
+      "Mastered Classes, Objects, and Constructors/Destructors.",
+      "Implemented Inheritance and Polymorphism in practical applications.",
+      "Deep understanding of Encapsulation, Data Hiding, and Abstraction.",
+      "Applied advanced OOP concepts to design robust and scalable architectures."
+    ]
+  }
+];
+
 const PHRASE = "MY EXPERIENCE";
 
 const ExperienceSection: React.FC = () => {
@@ -74,6 +107,9 @@ const ExperienceSection: React.FC = () => {
   const listRef = useRef<HTMLDivElement>(null);
   
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<"experience" | "certificates">("experience");
+
+  const items = activeTab === "experience" ? experiences : certificates;
 
   useGSAP(() => {
     const container = containerRef.current;
@@ -113,7 +149,11 @@ const ExperienceSection: React.FC = () => {
       }
     );
 
-  }, { scope: containerRef });
+    return () => {
+      ScrollTrigger.refresh();
+    };
+
+  }, { scope: containerRef, dependencies: [activeTab] });
 
   return (
     <section ref={containerRef} className={styles.experienceSection} id="experience">
@@ -134,19 +174,30 @@ const ExperienceSection: React.FC = () => {
 
       <div ref={listRef} className={`${styles.contentWrapper} max-w-6xl mx-auto px-6`}>
         
-        <div className="mb-16 border-b border-white/20 pb-4 flex justify-between items-end">
-          <h3 className="text-sm text-gray-400 tracking-[0.3em] uppercase">
-            Career History
-          </h3>
-          <span className="text-xs text-gray-600">
-            {experiences.length} ROLES
+        <div className="mb-16 border-b border-white/20 pb-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-0">
+          <div className={styles.tabContainer}>
+            <button 
+              className={`${styles.tabButton} ${activeTab === "experience" ? styles.activeTab : ""}`}
+              onClick={() => setActiveTab("experience")}
+            >
+              Experience
+            </button>
+            <button 
+              className={`${styles.tabButton} ${activeTab === "certificates" ? styles.activeTab : ""}`}
+              onClick={() => setActiveTab("certificates")}
+            >
+              Certificates
+            </button>
+          </div>
+          <span className="text-xs text-gray-600 tracking-[0.2em] uppercase">
+            {activeTab === "experience" ? `${experiences.length} ROLES` : `${certificates.length} CERTIFICATES`}
           </span>
         </div>
 
         <div className="flex flex-col">
-          {experiences.map((exp) => (
+          {items.map((exp) => (
             <div 
-              key={exp.id}
+              key={`${activeTab}-${exp.id}`}
               className={styles.rowContainer}
               onMouseEnter={() => setHoveredId(exp.id)}
               onMouseLeave={() => setHoveredId(null)}

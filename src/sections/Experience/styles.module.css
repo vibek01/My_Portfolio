@@ -8,13 +8,50 @@
   background-color: #000000;
   color: #fff;
   z-index: 10;
-  
+
   /* === PERFORMANCE FIX: Buffer Zone === */
   /* Added margin-top to separate this section from the Work section unpinning */
-  margin-top: 20vh; 
-  padding: 10vh 0; /* Reduced padding since we have margin */
-  
-  overflow: hidden; 
+  margin-top: 20vh;
+  padding: 10vh 0;
+  /* Reduced padding since we have margin */
+
+  overflow: hidden;
+}
+
+/* =========================================
+   TABS
+========================================= */
+.tabContainer {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tabButton {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #999;
+  padding: 8px 24px;
+  border-radius: 100px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.tabButton:hover {
+  border-color: #d8b4fe;
+  color: #eae5ec;
+}
+
+.activeTab {
+  background: rgba(216, 180, 254, 0.1);
+  color: #d8b4fe;
+  border-color: #d8b4fe;
+  font-weight: 700;
 }
 
 /* =========================================
@@ -22,7 +59,7 @@
 ========================================= */
 .textLayer {
   position: absolute;
-  top: 10vh; 
+  top: 10vh;
   left: 0;
   width: max-content;
   display: flex;
@@ -31,7 +68,7 @@
   pointer-events: none;
   user-select: none;
   /* PERFORMANCE FIX: Tell browser this layer moves */
-  will-change: transform; 
+  will-change: transform;
 }
 
 .bigText {
@@ -62,38 +99,35 @@
   width: 100%;
   height: 100%;
   color: transparent;
-  -webkit-text-stroke: 2px rgba(216, 180, 254, 0.8); /* Bright Purple */
-  
+  -webkit-text-stroke: 2px rgba(216, 180, 254, 0.8);
+  /* Bright Purple */
+
   /* WIDER MASK */
-  mask-image: linear-gradient(
-    60deg,
-    transparent 0%,
-    rgba(0,0,0,0.2) 10%,
-    black 30%,
-    black 70%,
-    rgba(0,0,0,0.2) 90%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    60deg,
-    transparent 0%,
-    rgba(0,0,0,0.2) 10%,
-    black 30%,
-    black 70%,
-    rgba(0,0,0,0.2) 90%,
-    transparent 100%
-  );
-  
+  mask-image: linear-gradient(60deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.2) 10%,
+      black 30%,
+      black 70%,
+      rgba(0, 0, 0, 0.2) 90%,
+      transparent 100%);
+  -webkit-mask-image: linear-gradient(60deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.2) 10%,
+      black 30%,
+      black 70%,
+      rgba(0, 0, 0, 0.2) 90%,
+      transparent 100%);
+
   mask-size: 200% 100%;
   -webkit-mask-size: 200% 100%;
-  
+
   /* === FIX: Added 'infinite' so the shine doesn't stop === */
   animation: shine-loop 6s linear;
-  
+
   /* PERFORMANCE FIX: Tell browser only mask-position changes */
   will-change: mask-position, -webkit-mask-position;
-  
-  opacity: 1; 
+
+  opacity: 1;
 }
 
 /* Infinite Shine Animation */
@@ -102,6 +136,7 @@
     -webkit-mask-position: 200% 0;
     mask-position: 200% 0;
   }
+
   100% {
     -webkit-mask-position: -200% 0;
     mask-position: -200% 0;
@@ -113,9 +148,18 @@
 ========================================= */
 .contentWrapper {
   position: relative;
-  z-index: 10; 
+  z-index: 10;
   will-change: transform, opacity;
-  margin-top: 5vh; 
+  margin-top: 5vh;
+
+  /* Apple-style Liquid Glassmorphism Effect */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: clamp(24px, 5vw, 48px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* =========================================
@@ -126,9 +170,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: background-color 0.3s ease;
   cursor: pointer;
-  
-  /* PERFORMANCE FIX: No Blur */
-  background-color: transparent; 
+  background-color: transparent;
 }
 
 .rowContainer:hover {
@@ -137,8 +179,8 @@
 
 /* Active State styling */
 .rowContainer:has(.open) {
-  /* Darker background to make text readable over the big letters */
-  background-color: #050505; 
+  /* Slightly darker to distinguish active row, but keep glassmorphism visible */
+  background-color: rgba(0, 0, 0, 0.5);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
