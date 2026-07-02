@@ -17,12 +17,12 @@ interface Project {
 
 const projects: Project[] = [
   { 
-    name: "Win Scale", 
-    cat: "Creative Agency", 
-    desc: "A high-performance website for a creative agency featuring smooth scroll animations and a modern grid layout.",
-    tools: "React, GSAP, Tailwind",
-    image: "/images/WINSCALE.png", 
-    link: "https://www.winscale.space/"
+    name: "Zirith Studio", 
+    cat: "B2B Agency", 
+    desc: "A premium, high-converting B2B agency website built for Zirith Studio. We specialize in high-end SaaS motion design, product explainers, and VSLs.",
+    tools: "Next.js, Tailwind, Framer Motion, Three.js",
+    image: "/images/ZIRITH.png", 
+    link: "https://zirith.in/"
   },
   { 
     name: "Gyanashree", 
