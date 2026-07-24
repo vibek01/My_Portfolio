@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowUp, Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import { SiLeetcode } from "react-icons/si";
 import Magnetic from "../ui/Magnetic"; 
 import styles from "./Footer.module.css";
 
@@ -110,6 +111,17 @@ const Footer: React.FC = () => {
                 aria-label="LinkedIn"
               >
                 <Linkedin size={20} />
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a 
+                href="https://leetcode.com/u/VIBEK_PRASAD_BIN/" 
+                target="_blank" 
+                rel="noreferrer" 
+                className={styles.socialBtn}
+                aria-label="LeetCode"
+              >
+                <SiLeetcode size={18} />
               </a>
             </Magnetic>
             <Magnetic>
