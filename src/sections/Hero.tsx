@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { EffectComposer, Bloom } from '@react-three/postprocessing'; 
 import { Github, Linkedin, Mail, Eye } from 'lucide-react';
+import { SiLeetcode } from "react-icons/si";
 import { useLoader } from '../components/ui/Loader/LoaderContext';
 import ParticleScene from '../components/canvas/ParticleScene';
 import Magnetic from '../components/ui/Magnetic';
@@ -137,6 +138,16 @@ const Hero = () => {
             className="text-gray-400 hover:text-white transition-colors p-2 block"
           >
             <Linkedin size={20} />
+          </a>
+        </Magnetic>
+        <Magnetic>
+          <a 
+            href="https://leetcode.com/u/VIBEK_PRASAD_BIN/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-gray-400 hover:text-white transition-colors p-2 block"
+          >
+            <SiLeetcode size={18} />
           </a>
         </Magnetic>
         <Magnetic>
