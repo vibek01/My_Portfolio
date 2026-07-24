@@ -101,6 +101,13 @@ const About: React.FC = () => {
                   <h3 className="text-3xl font-bold text-white">Web/App</h3>
                   <p className="text-sm text-gray-500 uppercase tracking-wider">Focus</p>
                 </div>
+                {/* 4th Stat: LeetCode */}
+                <div>
+                  <a href="https://leetcode.com/u/VIBEK_PRASAD_BIN/" target="_blank" rel="noopener noreferrer" className="block group">
+                    <h3 className="text-3xl font-bold text-white group-hover:text-purple-400 transition-colors">150+</h3>
+                    <p className="text-sm text-gray-500 uppercase tracking-wider group-hover:text-gray-400 transition-colors">LeetCode</p>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
